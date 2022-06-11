@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PlayYourColor</string>
+    <string name="title_activity_play_list">PlayListActivity</string>
+</resources>
