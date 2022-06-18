@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PlayYourColor</string>
     <string name="title_activity_play_list">PlayListActivity</string>
+    <string name="primary_playlist">SONGS</string>
+    <string name="color_playlist">COLOR PLAYLIST</string>
+    <string name="settings">SETTINGS</string>
 </resources>
