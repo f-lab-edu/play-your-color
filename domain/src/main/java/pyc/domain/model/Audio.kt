@@ -1,4 +1,4 @@
-package model
+package pyc.domain.model
 
 data class Audio(
     val uri: String,
