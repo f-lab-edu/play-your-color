@@ -4,6 +4,11 @@ buildscript {
         hilt_version = "2.41"
         room_version = "2.4.2"
         navigation_version = "2.5.0-rc02"
+        rxjava2_version = "2.2.10"
+        junit_version="4.13.2"
+        mockito_inline_version="2.13.0"
+        mockito_version="3.12.4"
+        assertj_version = "3.11.1"
     }
 
     dependencies {
