@@ -6,7 +6,8 @@ import androidx.room.*
     tableName = "color_playlist"
 )
 internal data class ColorPlaylist(
-    @PrimaryKey val colorPlayListId: Int,
+    @PrimaryKey val colorPlaylistId: Int,
     val audioUri: String,
+    val colorListInfoId: Int,
     val order: Int
 )
