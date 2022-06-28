@@ -71,5 +71,8 @@ dependencies {
     //navigation
     implementation "androidx.navigation:navigation-compose:$navigation_version"
 
+    //coil
+    implementation "io.coil-kt:coil-compose:$coil_version"
+
     implementation project(path: ':domain')
 }
