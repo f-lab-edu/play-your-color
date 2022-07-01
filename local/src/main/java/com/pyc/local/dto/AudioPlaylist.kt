@@ -3,7 +3,7 @@ package com.pyc.local.dto
 import androidx.room.*
 
 @Entity(
-    tableName = "color_playlist"
+    tableName = "audio_playlist"
 )
 internal data class AudioPlaylist(
     @PrimaryKey val colorPlaylistId: Int,
