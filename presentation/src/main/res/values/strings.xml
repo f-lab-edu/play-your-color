@@ -4,4 +4,11 @@
     <string name="primary_playlist">SONGS</string>
     <string name="color_playlist">COLOR PLAYLIST</string>
     <string name="settings">SETTINGS</string>
+    <string name="complete">완료</string>
+    <string name="all_choice">전체선택</string>
+    <string name="primary_playlist_editor">기본 플레이리스트 편집</string>
+    <string name="plus_song">곡 추가</string>
+    <string name="add">담기</string>
+    <string name="delete">삭제</string>
+    <string name="cancel">선택취소</string>
 </resources>
