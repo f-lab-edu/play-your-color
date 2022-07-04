@@ -13,4 +13,15 @@ dependencies {
     // Hilt Core
     implementation "com.google.dagger:hilt-core:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // rxjava2
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+
+    // JUnit 4 framework
+    implementation "junit:junit:$junit_version"
+
+    // Mockito framework
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.assertj:assertj-core:$assertj_version"
 }
