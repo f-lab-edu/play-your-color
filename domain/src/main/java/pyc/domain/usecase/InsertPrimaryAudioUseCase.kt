@@ -1,12 +1,12 @@
 package pyc.domain.usecase
 
 import io.reactivex.Completable
-import pyc.domain.repository.PrimaryPlaylistRepository
+import pyc.domain.repository.PlaylistRepository
 import javax.inject.Inject
 
 internal class InsertPrimaryAudioUseCase @Inject constructor(
-    private val primaryPlaylistRepository: PrimaryPlaylistRepository
+    private val playlistRepository: PlaylistRepository
 ) {
     operator fun invoke(startOrder: Int, uriList: List<String>): Completable =
-        primaryPlaylistRepository.insertAudio(startOrder, uriList)
+        playlistRepository.insertAudio(startOrder, uriList)
 }

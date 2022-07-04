@@ -1,13 +1,13 @@
 package pyc.domain.usecase
 
 import io.reactivex.Flowable
-import pyc.domain.model.Audio
-import pyc.domain.repository.PrimaryPlaylistRepository
+import pyc.domain.model.PlaylistItem
+import pyc.domain.repository.PlaylistRepository
 import javax.inject.Inject
 
 internal class GetPrimaryAudioListByColorUseCase @Inject constructor(
-    private val primaryPlaylistRepository: PrimaryPlaylistRepository
+    private val playlistRepository: PlaylistRepository
 ) {
-    operator fun invoke(colorInfoId: Int): Flowable<List<Audio>> =
-        primaryPlaylistRepository.getAudioList(colorInfoId)
+    operator fun invoke(playlistId: Int, colorInfoId: Int): Flowable<List<PlaylistItem>> =
+        playlistRepository.getPlaylistByColor(playlistId, colorInfoId)
 }
