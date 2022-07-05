@@ -7,6 +7,10 @@ import javax.inject.Inject
 internal class InsertPrimaryAudioUseCase @Inject constructor(
     private val playlistRepository: PlaylistRepository
 ) {
-    operator fun invoke(startOrder: Int, uriList: List<String>): Completable =
-        playlistRepository.insertAudio(startOrder, uriList)
+    operator fun invoke(
+        playlistId: Int,
+        startOrder: Int,
+        uriList: List<String>
+    ): Completable =
+        playlistRepository.insertAudio(playlistId, startOrder, uriList)
 }
