@@ -15,6 +15,11 @@
         android:theme="@style/Theme.PlayYourColor"
         tools:targetApi="31">
         <activity
+            android:name=".editor.PlaylistEditorActivity"
+            android:exported="false"
+            android:label="@string/title_activity_playlist_editor"
+            android:theme="@style/Theme.PlayYourColor" />
+        <activity
             android:name=".playlist.view.PlayListActivity"
             android:exported="true"
             android:label="@string/title_activity_play_list"

@@ -1,7 +1,6 @@
 package com.pyc.playyourcolor.editor.view.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -30,8 +29,9 @@ import com.pyc.playyourcolor.common.expand
 import com.pyc.playyourcolor.common.move
 import com.pyc.playyourcolor.common.noRippleClickable
 import com.pyc.playyourcolor.editor.model.AudioEditModel
+import com.pyc.playyourcolor.editor.viewmodel.PlaylistEditorViewModel
 import com.skydoves.landscapist.glide.GlideImage
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -99,7 +99,7 @@ fun PlaylistEditorScreen(
                         .fillMaxWidth()
                         .alpha(if (offsetOrNull() == null) 1f else 0.7f)
                         .zIndex(if (offsetOrNull() == null) 0f else 1f)
-                        .noRippleClickable{ onItemClicked(index) },
+                        .noRippleClickable { onItemClicked(index) },
                     horizontalArrangement = Arrangement.spacedBy(15.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -138,7 +138,9 @@ fun PlaylistEditorScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Preview
 @Composable
-fun PrimaryPlaylistEditor() {
+fun PrimaryPlaylistEditor(
+    viewModel: PlaylistEditorViewModel = viewModel()
+) {
 
     // dummy data 
     val ReorderItem = listOf(
