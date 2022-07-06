@@ -1,7 +1,19 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">PlayYourColor</string>
     <string name="title_activity_play_list">PlayListActivity</string>
     <string name="primary_playlist">SONGS</string>
     <string name="color_playlist">COLOR PLAYLIST</string>
     <string name="settings">SETTINGS</string>
+
+
+    <string name="all">전체</string>
+    <string name="edit">편집</string>
+    <string name="add">추가</string>
+    <string name="add_audio">재생 목록 추가</string>
+    <string name="cancel">취소</string>
+    <string name="audio_count" tools:ignore="ExtraTranslation">%d 곡</string>
+    <string name="search_playlist">재생목록 검색</string>
+    <string name="change_playlist">플레이리스트 변경</string>
+    <string name="play_impossible_audio_toast">재생 </string>
+    <string name="empty_playlist_message">플레이리스트가 비어 있습니다</string>
 </resources>

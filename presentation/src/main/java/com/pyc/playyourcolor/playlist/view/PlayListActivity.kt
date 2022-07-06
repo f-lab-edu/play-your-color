@@ -61,10 +61,10 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
         modifier = modifier
     ) {
         composable(PlayListScreen.Primary.name) {
-            PrimaryPlayListScreen()
+            //PrimaryPlayListScreen()
         }
         composable(PlayListScreen.Color.name) {
-            ColorPlayListScreen()
+            //ColorPlayListScreen()
         }
         composable(PlayListScreen.Settings.name) {
             SettingsScreen()
