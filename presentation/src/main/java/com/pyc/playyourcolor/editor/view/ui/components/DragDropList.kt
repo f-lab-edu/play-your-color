@@ -5,25 +5,20 @@ import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
 import androidx.compose.ui.geometry.Offset
 import com.pyc.playyourcolor.common.getVisibleItemInfoFor
 import com.pyc.playyourcolor.common.offsetEnd
-import kotlinx.coroutines.delay
 
 // itemContent: LazyColumn 에 그려질 Composable
 // offsetOrNull : 얼마나 y축으로 드래그 되었는 지 정도
 @Composable
 fun <T> DragDropList(
     items: List<T>,
-    key: ((index: Int, item: T) -> Any)?,
     onMove: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
     itemContent: @Composable LazyItemScope.(index: Int, item: T, offsetOrNull: () -> Float?) -> Unit
@@ -37,7 +32,7 @@ fun <T> DragDropList(
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
                     onDrag = { change, offset ->
-                        change.consumeAllChanges()
+                        change.consume()
                         dragDropListState.onDrag(offset = offset)
 
                         if (overScrollJob?.isActive == true)
@@ -61,7 +56,7 @@ fun <T> DragDropList(
             .padding(top = 10.dp, start = 10.dp, end = 10.dp),
         state = dragDropListState.lazyListState
     ) {
-        itemsIndexed(items, key = key) { index, item ->
+        itemsIndexed(items) { index, item ->
             itemContent(index, item) {
                 dragDropListState.elementDisplacement.takeIf {
                     index == dragDropListState.currentIndexOfDraggedItem

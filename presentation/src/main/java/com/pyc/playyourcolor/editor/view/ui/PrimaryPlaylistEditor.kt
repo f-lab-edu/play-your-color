@@ -51,16 +51,12 @@ fun PrimaryPlaylistEditor(
     }
 
     if (deleteDialogState) {
-        if (selectedCountState.value > 0) {
-            EditorDeleteDialog(
-                onDelete = {
-                    viewModel.deleteSelectedAudio()
-                    deleteDialogState = false },
-                onCancel = { deleteDialogState = false }
-            )
-        } else {
-            EditorEmptyChoiceDialog { deleteDialogState = false}
-        }
+        EditorDeleteDialog(
+            onDelete = {
+                viewModel.deleteSelectedAudio()
+                deleteDialogState = false },
+            onCancel = { deleteDialogState = false }
+        )
     }
 
     PlaylistEditorScreen(

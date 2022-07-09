@@ -94,6 +94,7 @@ class PlaylistEditorViewModel @AssistedInject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
                 _audioEditModelList.removeAll { it.checked }
+                _selectedCountState.value = 0
             }
             .subscribe()
     }

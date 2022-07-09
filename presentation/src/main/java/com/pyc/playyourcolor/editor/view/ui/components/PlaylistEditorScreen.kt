@@ -1,5 +1,6 @@
 package com.pyc.playyourcolor.editor.view.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -100,8 +101,8 @@ fun PlaylistEditorScreen(
                             }
                         else 0.dp)
                     .weight(1f),
-                key = { _, item -> item.id }
             ) { index, item, offsetOrNull ->
+                Log.d("Test", "${item.title} offsetOrNull : ${offsetOrNull()}")
                 Row(
                     modifier = Modifier
                         .graphicsLayer {
@@ -113,8 +114,8 @@ fun PlaylistEditorScreen(
                         )
                         .wrapContentHeight()
                         .fillMaxWidth()
-                        .alpha(if (offsetOrNull() == null) 1f else 0.7f)
-                        .zIndex(if (offsetOrNull() == null) 0f else 1f)
+                        .alpha(if (item.checked) 0.7f else 1f)
+                        .zIndex(if (item.checked) 1f else 0f)
                         .noRippleClickable { onItemClicked(index) },
                     horizontalArrangement = Arrangement.spacedBy(15.dp),
                     verticalAlignment = Alignment.CenterVertically,
