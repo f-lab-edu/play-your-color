@@ -16,29 +16,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.pyc.playyourcolor.R
-import com.pyc.playyourcolor.common.expand
-import com.pyc.playyourcolor.common.move
 import com.pyc.playyourcolor.common.noRippleClickable
 import com.pyc.playyourcolor.editor.model.AudioEditModel
-import com.pyc.playyourcolor.editor.viewmodel.PlaylistEditorViewModel
 import com.skydoves.landscapist.glide.GlideImage
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlaylistEditorScreen(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    items: MutableList<AudioEditModel>,
-    title: @Composable (modifier: Modifier) -> Unit,
+    items: List<AudioEditModel>,
+    title: String,
     topMenu: @Composable () -> Unit,
     bottomMenu: @Composable () -> Unit,
     onCompleted: (Int) -> Unit,
@@ -46,12 +45,15 @@ fun PlaylistEditorScreen(
     onMove: (Int, Int) -> Unit,
 ) {
 
+    var size by remember { mutableStateOf(IntSize.Zero) }
+
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             bottomMenu()
         },
-        sheetPeekHeight = 0.dp
+        sheetPeekHeight = 0.dp,
+        modifier = Modifier.onSizeChanged { size = it }
     ) {
         Column(
             Modifier
@@ -60,14 +62,21 @@ fun PlaylistEditorScreen(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, start = 10.dp, end = 10.dp)) {
-                title(modifier = Modifier.align(Alignment.Center))
+                    .padding(top = 20.dp, start = 10.dp, end = 10.dp)
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = title,
+                    color = MaterialTheme.colors.onBackground,
+                    fontSize = 20.sp
+                )
                 ClickableText(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
                                 color = MaterialTheme.colors.primary,
+                                fontSize = 20.sp
                             )
                         ) {
                             append(stringResource(id = R.string.complete))
@@ -82,7 +91,13 @@ fun PlaylistEditorScreen(
                 onMove = onMove,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 10.dp, start = 10.dp, end = 10.dp)
+                    .padding(
+                        top = 10.dp, start = 10.dp, end = 10.dp,
+                        bottom = if (bottomSheetScaffoldState.bottomSheetState.isExpanded)
+                            with(LocalDensity.current) {
+                                (size.height - bottomSheetScaffoldState.bottomSheetState.offset.value).toDp()
+                            }
+                        else 0.dp)
                     .weight(1f),
                 key = { _, item -> item.id }
             ) { index, item, offsetOrNull ->
@@ -134,100 +149,6 @@ fun PlaylistEditorScreen(
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
-@Preview
-@Composable
-fun PrimaryPlaylistEditor(
-    viewModel: PlaylistEditorViewModel = viewModel()
-) {
-
-    // dummy data 
-    val ReorderItem = listOf(
-        AudioEditModel(1, "", "처음 그 자리에", "이보람", "https://picsum.photos/id/237/200/300", true),
-        AudioEditModel(2, "", "파도", "유엔", "", true),
-        AudioEditModel(3, "", "Stand by You", "래디", "", true),
-        AudioEditModel(4, "", "처음 그 자리에", "이보람", "", true),
-    ).toMutableStateList()
-
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
-    val coroutineScope = rememberCoroutineScope()
-
-    PlaylistEditorScreen(
-        bottomSheetScaffoldState = bottomSheetScaffoldState,
-        items = ReorderItem,
-        title = {
-            Text(
-                modifier = it,
-                text = stringResource(id = R.string.primary_playlist_editor),
-                color = MaterialTheme.colors.onBackground
-            )
-        },
-        topMenu = {
-            Box(Modifier
-                .fillMaxWidth()
-            ){
-                Row(modifier = Modifier
-                    .align(Alignment.CenterStart)
-                ) {
-                    EditorPlusAudioButton {
-                        // todo: 곡 추가화면 띄우기
-                    }
-                }
-                EditorAllChoiceButton(
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                ) {
-                    // todo: 전체 선택 처리
-                }
-            }
-        },
-        bottomMenu = {
-            Row(
-                modifier = Modifier
-                    .background(MaterialTheme.colors.primaryVariant)
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                EditorBottomIconButton(
-                    imageVector = Icons.Filled.Add,
-                    text = stringResource(id = R.string.add)
-                ) {
-                    // todo: 담기 화면
-                }
-
-                EditorBottomIconButton(
-                    imageVector = Icons.Filled.Delete,
-                    text = stringResource(id = R.string.delete)
-                ) {
-                    // todo: 삭제 처리
-                }
-
-                EditorBottomIconButton(
-                    imageVector = Icons.Filled.Cancel,
-                    text = stringResource(id = R.string.cancel)
-                ) {
-                    // todo: 선택 취소 처리
-                }
-            }
-        },
-        onCompleted = { _ ->
-            // todo: 뒤로가기
-        },
-        onItemClicked = { idx ->
-            // todo: viewmodel에 상태 처리
-            bottomSheetScaffoldState.expand(coroutineScope)
-        },
-        onMove = { from, to ->
-            // todo: viewmodel에 순서 변경 업데이트
-            // onMove 말고 drag end 일떄 업데이트?
-            ReorderItem.move(from, to)
-        }
-    )
-}
-
 @Composable
 fun EditorBottomIconButton(
     modifier: Modifier = Modifier,
@@ -259,7 +180,8 @@ fun EditorBottomIconButton(
 @Composable
 fun EditorAllChoiceButton(
     modifier: Modifier = Modifier,
-    isChecked: Boolean = false,
+    maxSelectedCount: Int = 0,
+    selectedCount: Int = 0,
     onClick: () -> Unit = {}
 ) {
     Button(
@@ -271,11 +193,11 @@ fun EditorAllChoiceButton(
         Icon(
             imageVector = Icons.Filled.Check,
             contentDescription = stringResource(id = R.string.all_choice),
-            tint = if (isChecked) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary
+            tint = if (maxSelectedCount == selectedCount) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary
         )
         Text(
             text = stringResource(id = R.string.all_choice),
-            color = if (isChecked) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary
+            color = if (maxSelectedCount == selectedCount) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary
         )
     }
 }
