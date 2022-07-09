@@ -7,8 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,10 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pyc.playyourcolor.R
 import com.pyc.playyourcolor.common.collapse
 import com.pyc.playyourcolor.common.expand
-import com.pyc.playyourcolor.editor.view.ui.components.EditorAllChoiceButton
-import com.pyc.playyourcolor.editor.view.ui.components.EditorBottomIconButton
-import com.pyc.playyourcolor.editor.view.ui.components.EditorPlusAudioButton
-import com.pyc.playyourcolor.editor.view.ui.components.PlaylistEditorScreen
+import com.pyc.playyourcolor.editor.view.ui.components.*
 import com.pyc.playyourcolor.editor.viewmodel.PlaylistEditorViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -33,11 +30,11 @@ fun PrimaryPlaylistEditor(
 
     val audioEditModelList = viewModel.audioEditModelList
 
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = viewModel.bottomSheetState,
-    )
+    val bottomSheetScaffoldState = viewModel.bottomSheetScaffoldState
 
     val selectedCountState = viewModel.selectedCountState
+
+    var deleteDialogState by rememberSaveable { mutableStateOf(false) }
 
     if (selectedCountState.value > 0) {
         LaunchedEffect(key1 = bottomSheetScaffoldState) {
@@ -50,6 +47,19 @@ fun PrimaryPlaylistEditor(
             if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
                 bottomSheetScaffoldState.collapse(this)
             }
+        }
+    }
+
+    if (deleteDialogState) {
+        if (selectedCountState.value > 0) {
+            EditorDeleteDialog(
+                onDelete = {
+                    viewModel.deleteSelectedAudio()
+                    deleteDialogState = false },
+                onCancel = { deleteDialogState = false }
+            )
+        } else {
+            EditorEmptyChoiceDialog { deleteDialogState = false}
         }
     }
 
@@ -97,12 +107,12 @@ fun PrimaryPlaylistEditor(
                     imageVector = Icons.Filled.Delete,
                     text = stringResource(id = R.string.delete)
                 ) {
-                    viewModel.deleteSelectedAudio()
+                    deleteDialogState = true
                 }
 
                 EditorBottomIconButton(
                     imageVector = Icons.Filled.Cancel,
-                    text = stringResource(id = R.string.cancel)
+                    text = stringResource(id = R.string.choice_cancel)
                 ) {
                     viewModel.deselectAllAudio()
                 }

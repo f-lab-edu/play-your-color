@@ -1,8 +1,6 @@
 package com.pyc.playyourcolor.editor.viewmodel
 
-import androidx.compose.material.BottomSheetState
-import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.*
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +33,11 @@ class PlaylistEditorViewModel @AssistedInject constructor(
     val selectedCountState : State<Int> get() = _selectedCountState
 
     @OptIn(ExperimentalMaterialApi::class)
-    val bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    val bottomSheetScaffoldState = BottomSheetScaffoldState(
+        drawerState = DrawerState(DrawerValue.Closed),
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed),
+        SnackbarHostState()
+    )
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

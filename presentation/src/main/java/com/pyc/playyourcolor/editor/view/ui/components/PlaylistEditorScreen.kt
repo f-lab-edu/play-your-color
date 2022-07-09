@@ -95,7 +95,8 @@ fun PlaylistEditorScreen(
                         top = 10.dp, start = 10.dp, end = 10.dp,
                         bottom = if (bottomSheetScaffoldState.bottomSheetState.isExpanded)
                             with(LocalDensity.current) {
-                                (size.height - bottomSheetScaffoldState.bottomSheetState.offset.value).toDp()
+                                (size.height - bottomSheetScaffoldState.bottomSheetState.offset.value)
+                                    .takeIf { it >= 0 }?.toDp() ?: 0.dp
                             }
                         else 0.dp)
                     .weight(1f),
