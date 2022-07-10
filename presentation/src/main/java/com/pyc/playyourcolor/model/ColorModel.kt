@@ -7,5 +7,5 @@ internal class ColorModel(
     private val hexColor: String, //hex code
     val name: String
 ) {
-    val color = Color(android.graphics.Color.parseColor(hexColor))
+    val color: Color = Color(android.graphics.Color.parseColor(hexColor))
 }

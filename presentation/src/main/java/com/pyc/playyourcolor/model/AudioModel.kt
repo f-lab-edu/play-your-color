@@ -12,8 +12,4 @@ internal data class AudioModel(
         val colorInfoList: List<ColorInfo> = listOf(),
         var playPossible: Boolean = true,
         var nowPlaying: Boolean = false
-) {
-
-
-
-}
+)

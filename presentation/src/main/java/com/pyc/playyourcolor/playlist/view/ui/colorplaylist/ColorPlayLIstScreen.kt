@@ -47,8 +47,6 @@ internal fun ColorPlayListScreen(
         onAddAudio = onAddAudio,
         onEditPlaylist = onEditPlaylist,
         onSearchAudioInList = onSearchAudioInList
-
-
     )
 
 }

@@ -31,17 +31,16 @@ internal fun PlaylistScreenComponent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = dimensionResource(id = R.dimen.padding_row_item))
     ) {
         topBarSlot()
         val (searchMode, setSearchMode) = remember {
             mutableStateOf(false)
         }
-        if (!searchMode) {
+        if (searchMode) {
             PlaylistFunctionBarRow(
                 listCount = playlist.size,
                 playlistId = playlistId,
-                onSearchMode = { /*TODO*/ },
+                onSearchMode = { setSearchMode(true) },
                 onAddAudio = onAddAudio,
                 onEditPlaylist = onEditPlaylist
             )

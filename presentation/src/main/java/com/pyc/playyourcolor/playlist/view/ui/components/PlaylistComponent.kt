@@ -1,7 +1,7 @@
 package com.pyc.playyourcolor.playlist.view.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,19 +13,18 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.pyc.playyourcolor.R
 import com.pyc.playyourcolor.extensions.toFormattedDuration
 import com.pyc.playyourcolor.model.AudioModel
 import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 import com.pyc.playyourcolor.playlist.view.ui.theme.PrimaryColor
+import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
@@ -55,35 +54,45 @@ internal fun PlaylistItemRow(
 ) {
     val audio = item.audio
     Box(Modifier.fillMaxWidth()) {
-        if (!item.audio.playPossible) {
-            //TODO 재생 불가할 때 PlayImpossibleBackgroundColor 씌우기
-        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(
+                    Color(
+                        1f,
+                        1f,
+                        1f,
+                        if (nowPlaying) 0.3f else if (!item.audio.playPossible) 0.6f else 0f
+                    )
+                )
                 .combinedClickable(
                     onClick = { itemClick(item.id, item.audio.playPossible) },
                     onLongClick = { itemLongClick(item.id) }
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val itemColor = if (item.audio.playPossible) Color.White else Color.Gray
 
-
-            AudioImageContainer(modifier = Modifier.size(40.dp)) {
-                AudioImage(imgUri = audio.imgUri)
-            }
+            GlideImage(
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(RoundedCornerShape(10.dp)),
+                imageModel = audio.imgUri.ifEmpty { null },
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.width(20.dp))
-            Column(modifier = Modifier.fillMaxWidth(fraction = 0.73f)) {
+            Column(modifier = Modifier.fillMaxWidth(fraction = 0.63f)) {
                 Text(
                     modifier = Modifier.wrapContentSize(),
                     text = audio.title,
-                    style = MaterialTheme.typography.subtitle1.copy(color = Color.White)
+                    style = MaterialTheme.typography.subtitle1.copy(color = itemColor)
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
                     modifier = Modifier.wrapContentSize(),
                     text = audio.artist,
-                    style = MaterialTheme.typography.caption.copy(color = Color.White)
+                    style = MaterialTheme.typography.caption.copy(color = itemColor)
                 )
             }
 
@@ -91,7 +100,7 @@ internal fun PlaylistItemRow(
             Text(
                 modifier = Modifier.wrapContentWidth(Alignment.End),
                 text = audio.duration.toFormattedDuration().toString(),
-                color = if (nowPlaying) PrimaryColor else Color.White,
+                color = if (nowPlaying) PrimaryColor else itemColor,
                 style = MaterialTheme.typography.caption
             )
             IconButton(
@@ -101,10 +110,11 @@ internal fun PlaylistItemRow(
                 Icon(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
-                    tint = Color.White
+                    tint = itemColor
                 )
             }
         }
+
     }
 
 }
@@ -113,6 +123,7 @@ internal fun PlaylistItemRow(
 @Composable
 internal fun PreviewPlaylistItemRow() {
     PlaylistItemRow(
+        nowPlaying = false,
         item =
         AudioPlaylistItemModel(
             id = 1,
@@ -121,7 +132,7 @@ internal fun PreviewPlaylistItemRow() {
                 "TT",
                 "트와이스",
                 300000,
-                "https://imgur.com/93QXZlj",
+                "https://i.imgur.com/93QXZlj.png",
                 "mp3"
             )
         ),
@@ -129,38 +140,6 @@ internal fun PreviewPlaylistItemRow() {
         itemLongClick = { id -> },
         moreIconClick = { item -> }
     )
-}
-
-
-@Composable
-private fun AudioImage(imgUri: String) {
-    Box {
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(imgUri)
-                .crossfade(true)
-                .build(),
-            contentScale = ContentScale.Crop
-        )
-
-        Image(
-            painter = painter,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
-    }
-}
-
-@Composable
-private fun AudioImageContainer(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Surface(modifier.aspectRatio(1f), RoundedCornerShape(2.dp)) {
-        content()
-    }
 }
 
 @Composable

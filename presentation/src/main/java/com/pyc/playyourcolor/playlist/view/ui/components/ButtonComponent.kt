@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +16,7 @@ import com.pyc.playyourcolor.R
 @Composable
 internal fun RoundedCornerShapeOutlinedButton(name: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
 
-    androidx.compose.material.OutlinedButton(
+    OutlinedButton(
         modifier = modifier,
         onClick = onClick,
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_20dp)),

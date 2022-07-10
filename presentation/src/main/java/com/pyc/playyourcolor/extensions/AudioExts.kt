@@ -4,7 +4,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-fun Long.toFormattedDuration() = try {
+fun Long.toFormattedDuration() : String  = try {
 
     val hours = TimeUnit.MILLISECONDS.toHours(this)
     val minutes = TimeUnit.MILLISECONDS.toMinutes(this)
@@ -27,5 +27,5 @@ fun Long.toFormattedDuration() = try {
 
 } catch (e: Exception) {
     e.printStackTrace()
-
+    "00:00"
 }

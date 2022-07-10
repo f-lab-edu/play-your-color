@@ -74,7 +74,7 @@ internal fun PrimaryPlayListScreenPreview() {
                     "TT",
                     "트와이스",
                     300000,
-                    "https://imgur.com/93QXZlj",
+                    "https://i.imgur.com/93QXZlj.png",
                     "mp3"
                 )
             ),
@@ -84,7 +84,7 @@ internal fun PrimaryPlayListScreenPreview() {
                     "라라라",
                     "SG워너비",
                     200000,
-                    "https://imgur.com/93QXZlj",
+                    "https://i.imgur.com/93QXZlj.png",
                     "mp3",
                     playPossible = false
                 )
@@ -95,7 +95,7 @@ internal fun PrimaryPlayListScreenPreview() {
                     "LUPIN",
                     "DKZ",
                     180000,
-                    "https://imgur.com/93QXZlj",
+                    "https://i.imgur.com/93QXZlj.png",
                     "mp3"
                 )
             )
