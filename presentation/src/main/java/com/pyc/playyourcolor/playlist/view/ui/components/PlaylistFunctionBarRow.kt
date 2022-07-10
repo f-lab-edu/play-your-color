@@ -5,7 +5,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -13,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pyc.playyourcolor.R
 import com.pyc.playyourcolor.playlist.view.ui.theme.GreyColor
@@ -24,9 +26,10 @@ import com.pyc.playyourcolor.playlist.view.ui.theme.Purple200
  * TODO 리스트 곡수 변경에 따른 카운팅 UI 변경, 검색, 추가, 편집 버튼 클릭 리스너 추가
  *
  */
-@Preview
+
 @Composable
 internal fun PlaylistFunctionBarRow(
+    modifier: Modifier,
     listCount: Int,
     playlistId: Int,
     onSearchMode: () -> Unit,
@@ -35,8 +38,7 @@ internal fun PlaylistFunctionBarRow(
 
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -76,16 +78,15 @@ internal fun PlaylistFunctionBarRow(
 
 
 @OptIn(ExperimentalComposeUiApi::class)
-@Preview
 @Composable
 internal fun SearchBarRow(
+    modifier: Modifier,
     searchWord: String,
     onSearchCanceled: () -> Unit,
     onSearchAudioInList: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -99,7 +100,8 @@ internal fun SearchBarRow(
         val word by remember { mutableStateOf(TextFieldValue("")) }
         val keyboardController = LocalSoftwareKeyboardController.current
         TextField(
-            modifier = Modifier.fillMaxWidth(0.8f),
+            modifier = Modifier
+                .fillMaxWidth(0.8f),
             value = searchWord,
             onValueChange = onSearchAudioInList,
             label = {
@@ -110,8 +112,13 @@ internal fun SearchBarRow(
             },
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide()
-            })
+            },
+            ),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent
+            )
         )
+        Spacer(modifier = Modifier.width(5.dp))
         RoundedCornerShapeOutlinedButton(
             stringResource(id = R.string.cancel),
             onClick = onSearchCanceled

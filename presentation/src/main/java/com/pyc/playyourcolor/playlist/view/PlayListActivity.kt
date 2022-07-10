@@ -3,12 +3,11 @@ package com.pyc.playyourcolor.playlist.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.registerForActivityResult
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.*
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -67,21 +66,17 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
         modifier = modifier
     ) {
         composable(PlayListScreen.Primary.name) {
-            PlaylistScreenComponent(
-                topBarSlot = {
-                    ColorListRow(
-                        colorList = listOf(
-                            ColorModel(1, "#ffee11", "오렌지"),
-                            ColorModel(2, "#faaa1d", "레드"),
-                            ColorModel(3, "#ddffaa", "블랙"),
-                            ColorModel(4, "#ccdd56", "갈색"),
-                            ColorModel(5, "#7a7aff", "화이트"),
-                            ColorModel(6, "#9d9d33", "노란색"),
-                        ),
-                        1,
-                        onAllSelect = {},
-                        onColorSelect = {})
-                },
+
+
+            PrimaryPlayListScreen(
+                colorList = listOf(
+                    ColorModel(1, "#ffee11", "오렌지"),
+                    ColorModel(2, "#faaa1d", "레드"),
+                    ColorModel(3, "#ddffaa", "블랙"),
+                    ColorModel(4, "#ccdd56", "갈색"),
+                    ColorModel(5, "#7a7aff", "화이트"),
+                    ColorModel(6, "#9d9d33", "노란색"),
+                ),
                 playlist = listOf(
                     AudioPlaylistItemModel(
                         id = 1,
@@ -94,6 +89,7 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
                             "mp3"
                         )
                     ),
+
                     AudioPlaylistItemModel(
                         id = 1, audio = AudioModel(
                             "test",
@@ -116,6 +112,7 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
                         )
                     )
                 ),
+                nowPlayingAudioId = 0,
                 playlistId = 1,
                 itemClick = { id, playPossible -> },
                 itemLongClick = { id -> },
@@ -126,7 +123,19 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
             )
         }
         composable(PlayListScreen.Color.name) {
-            //ColorPlayListScreen()
+            ColorPlayListScreen(
+                colorInfo = ColorModel(1, "#ffee11", "오렌지"),
+                playlist = listOf(),
+                playlistId = 1,
+                nowPlayingAudioId = null,
+                itemClick = { id, playPossible -> },
+                itemLongClick = { id -> },
+                moreIconClick = { item -> },
+                onAddAudio = { id -> },
+                onEditPlaylist = { id -> },
+                onSearchAudioInList = { word -> },
+                onChangeColorList = {}
+            )
         }
         composable(PlayListScreen.Settings.name) {
             SettingsScreen()

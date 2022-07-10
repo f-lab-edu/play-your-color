@@ -2,6 +2,7 @@ package com.pyc.playyourcolor.playlist.view.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,7 +20,7 @@ import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 internal fun PlaylistScreenComponent(
     playlist: List<AudioPlaylistItemModel>,
     playlistId: Int,
-    nowPlaying: Boolean = false,
+    nowPlayingAudioId: Int?,
     itemClick: (Int, Boolean) -> Unit,
     itemLongClick: (Int) -> Unit,
     moreIconClick: (AudioPlaylistItemModel) -> Unit,
@@ -36,8 +37,11 @@ internal fun PlaylistScreenComponent(
         val (searchMode, setSearchMode) = remember {
             mutableStateOf(false)
         }
-        if (searchMode) {
+        if (!searchMode) {
             PlaylistFunctionBarRow(
+                Modifier.padding(horizontal = dimensionResource(id = R.dimen.item_padding_horizontal), vertical = dimensionResource(
+                    id = R.dimen.item_padding_vertical
+                )).fillMaxWidth(),
                 listCount = playlist.size,
                 playlistId = playlistId,
                 onSearchMode = { setSearchMode(true) },
@@ -48,6 +52,9 @@ internal fun PlaylistScreenComponent(
             //TODO 수정예정
             val searchWord = ""
             SearchBarRow(
+                Modifier.padding(horizontal = dimensionResource(id = R.dimen.item_padding_horizontal), vertical = dimensionResource(
+                    id = R.dimen.item_padding_vertical
+                )),
                 searchWord,
                 onSearchCanceled = { setSearchMode(false) }, onSearchAudioInList
             )
@@ -55,7 +62,7 @@ internal fun PlaylistScreenComponent(
 
         //playlist영역
         if (playlist.isNotEmpty()) {
-            PlaylistRow(playlist, nowPlaying, itemClick, itemLongClick, moreIconClick)
+            PlaylistRow(playlist, nowPlayingAudioId, itemClick, itemLongClick, moreIconClick)
         } else {
             EmptyPlaylistViewRow { onAddAudio(playlistId) }
         }

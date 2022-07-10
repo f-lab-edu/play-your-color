@@ -27,14 +27,14 @@ import com.pyc.playyourcolor.model.ColorModel
 
 @Composable
 internal fun ColorListRow(
+    modifier: Modifier,
     colorList: List<ColorModel>,
     selectedColorId: Int?,
     onAllSelect: () -> Unit,
     onColorSelect: (Int) -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -94,21 +94,3 @@ internal fun ColorItemColumn(selectedColorId: Int?, item: ColorModel) {
     }
 }
 
-
-@Preview
-@Composable
-internal fun PreviewColorListRow() {
-    ColorListRow(
-        colorList = listOf(
-            ColorModel(1, "#ffee11", "오렌지"),
-            ColorModel(2, "#faaa1d", "레드"),
-            ColorModel(3, "#ddffaa", "블랙"),
-            ColorModel(4, "#ccdd56", "갈색"),
-            ColorModel(5, "#7a7aff", "화이트"),
-            ColorModel(6, "#9d9d33", "노란색"),
-        ),
-        selectedColorId = 1,
-        onAllSelect = {},
-        onColorSelect = {}
-    )
-}

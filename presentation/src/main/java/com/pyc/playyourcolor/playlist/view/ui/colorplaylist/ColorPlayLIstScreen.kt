@@ -11,36 +11,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.pyc.playyourcolor.R
-import com.pyc.playyourcolor.model.AudioModel
 import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 import com.pyc.playyourcolor.model.ColorModel
-import com.pyc.playyourcolor.playlist.view.ui.components.ColorListRow
 import com.pyc.playyourcolor.playlist.view.ui.components.PlaylistScreenComponent
 import com.pyc.playyourcolor.playlist.view.ui.components.RoundedCornerShapeOutlinedButton
 
 @Composable
 internal fun ColorPlayListScreen(
+    colorInfo: ColorModel,
     playlist: List<AudioPlaylistItemModel>,
     playlistId: Int,
-    nowPlaying: Boolean = false,
+    nowPlayingAudioId: Int?,
     itemClick: (Int, Boolean) -> Unit,
     itemLongClick: (Int) -> Unit,
     moreIconClick: (AudioPlaylistItemModel) -> Unit,
     onAddAudio: (Int) -> Unit,
     onEditPlaylist: (Int) -> Unit,
-    onSearchAudioInList: (String) -> Unit
+    onSearchAudioInList: (String) -> Unit,
+    onChangeColorList: () -> Unit
 ) {
-    Text(text = "컬러 플레이리스트 화면")
-
     PlaylistScreenComponent(
         topBarSlot = {
-            ColorPlaylistHeaderRow(colorModel = ColorModel(1, "#ffee11", "오렌지"))
+            ColorPlaylistHeaderRow(colorInfo = colorInfo, onChangeColorList = onChangeColorList)
         },
         playlist = playlist,
         playlistId = playlistId,
-        nowPlaying = nowPlaying,
+        nowPlayingAudioId = nowPlayingAudioId,
         itemClick = itemClick,
         itemLongClick = itemLongClick,
         moreIconClick = moreIconClick,
@@ -54,21 +51,15 @@ internal fun ColorPlayListScreen(
 
 
 @Composable
-private fun PreviewColorPlaylistHeaderRow() {
-    ColorPlaylistHeaderRow(colorModel = ColorModel(1, "#ffee11", "오렌지"))
-}
-
-
-@Composable
-internal fun ColorPlaylistHeaderRow(colorModel: ColorModel) {
+internal fun ColorPlaylistHeaderRow(colorInfo: ColorModel, onChangeColorList: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(all = dimensionResource(id = R.dimen.padding_row_item))
+            .padding(all = dimensionResource(id = R.dimen.item_padding_horizontal))
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = colorModel.name,
+            text = colorInfo.name,
             style = MaterialTheme.typography.body1.copy(color = Color.White)
         )
 
@@ -76,29 +67,9 @@ internal fun ColorPlaylistHeaderRow(colorModel: ColorModel) {
             stringResource(id = R.string.change_playlist),
             modifier = Modifier
                 .align(Alignment.CenterEnd),
-            onClick = { }
+            onClick = onChangeColorList
 
         )
     }
-
-}
-
-
-@Preview
-@Composable
-internal fun PrimaryPlayListScreenPreview() {
-    PlaylistScreenComponent(
-        topBarSlot = {
-            ColorPlaylistHeaderRow(colorModel = ColorModel(1, "#ffee11", "오렌지"))
-        },
-        playlist = listOf(),
-        playlistId = 1,
-        itemClick = { id, playPossible -> },
-        itemLongClick = { id -> },
-        moreIconClick = { item -> },
-        onAddAudio = { id -> },
-        onEditPlaylist = { id -> },
-        onSearchAudioInList = { word -> }
-    )
 
 }
