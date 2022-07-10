@@ -16,9 +16,7 @@ import com.pyc.playyourcolor.model.AudioModel
 import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 import com.pyc.playyourcolor.model.ColorModel
 import com.pyc.playyourcolor.playlist.view.ui.colorplaylist.ColorPlayListScreen
-import com.pyc.playyourcolor.playlist.view.ui.components.ColorListRow
 import com.pyc.playyourcolor.playlist.view.ui.components.PlayListTabRow
-import com.pyc.playyourcolor.playlist.view.ui.components.PlaylistScreenComponent
 import com.pyc.playyourcolor.playlist.view.ui.primaryplaylist.PrimaryPlayListScreen
 import com.pyc.playyourcolor.playlist.view.ui.settings.SettingsScreen
 import com.pyc.playyourcolor.playlist.view.ui.theme.PlayYourColorTheme

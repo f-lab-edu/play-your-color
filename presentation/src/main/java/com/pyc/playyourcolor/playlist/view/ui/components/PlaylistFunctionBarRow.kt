@@ -22,10 +22,6 @@ import com.pyc.playyourcolor.playlist.view.ui.theme.GreyColor
 import com.pyc.playyourcolor.playlist.view.ui.theme.Purple200
 
 
-/**
- * TODO 리스트 곡수 변경에 따른 카운팅 UI 변경, 검색, 추가, 편집 버튼 클릭 리스너 추가
- *
- */
 
 @Composable
 internal fun PlaylistFunctionBarRow(
@@ -62,7 +58,7 @@ internal fun PlaylistFunctionBarRow(
                 )
             }
             RoundedCornerShapeOutlinedButton(
-                stringResource(id = R.string.add),
+                stringResource(id = R.string.add_audio),
                 modifier = Modifier.wrapContentSize(),
                 onClick = { onAddAudio(playlistId) })
             Spacer(Modifier.width(5.dp))
@@ -120,7 +116,7 @@ internal fun SearchBarRow(
         )
         Spacer(modifier = Modifier.width(5.dp))
         RoundedCornerShapeOutlinedButton(
-            stringResource(id = R.string.cancel),
+            stringResource(id = R.string.cancel_act),
             onClick = onSearchCanceled
         )
 

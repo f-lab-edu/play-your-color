@@ -159,7 +159,7 @@ internal fun EmptyPlaylistViewRow(onAddAudio: () -> Unit) {
             )
             Spacer(Modifier.height(10.dp))
             RoundedCornerShapeOutlinedButton(
-                name = stringResource(id = R.string.add_audio),
+                name = stringResource(id = R.string.add_audio_in_playlist),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = onAddAudio
             )
