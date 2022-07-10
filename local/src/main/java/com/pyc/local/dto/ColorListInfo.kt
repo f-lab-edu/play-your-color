@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "color_list_info", indices = [Index(value = ["color_hex"], unique = true),
     Index(value = ["order"], unique = true)])
-internal data class ColorlistInfo(
+internal data class ColorListInfo(
     @PrimaryKey val colorListInfoId: Int,
     @ColumnInfo(name = "color_hex")val colorHex: String,
     val colorName: String,
