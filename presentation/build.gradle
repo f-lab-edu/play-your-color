@@ -71,6 +71,8 @@ dependencies {
     //navigation
     implementation "androidx.navigation:navigation-compose:$navigation_version"
 
+
+    //glide
     implementation "com.github.skydoves:landscapist-glide:$landscapist_glide_version"
 
     // rxjava2
