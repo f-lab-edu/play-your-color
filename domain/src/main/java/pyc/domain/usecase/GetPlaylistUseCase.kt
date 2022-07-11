@@ -5,7 +5,7 @@ import pyc.domain.model.PlaylistItem
 import pyc.domain.repository.PlaylistRepository
 import javax.inject.Inject
 
-internal class GetPlaylistUseCase @Inject constructor(
+class GetPlaylistUseCase @Inject constructor(
     private val playlistRepository: PlaylistRepository
 ) {
     operator fun invoke(playlistId: Int): Flowable<List<PlaylistItem>> =

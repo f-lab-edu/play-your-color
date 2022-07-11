@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import pyc.domain.repository.PlaylistRepository
 import javax.inject.Inject
 
-internal class InsertPrimaryAudioUseCase @Inject constructor(
+class InsertPrimaryAudioUseCase @Inject constructor(
     private val playlistRepository: PlaylistRepository
 ) {
     operator fun invoke(

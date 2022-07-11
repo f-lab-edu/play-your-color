@@ -61,6 +61,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -73,6 +74,10 @@ dependencies {
 
     //glide
     implementation "com.github.skydoves:landscapist-glide:$landscapist_glide_version"
+
+    // rxjava2
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
     implementation project(path: ':domain')
 }
