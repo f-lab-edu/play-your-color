@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Context) : PrefDatabase {
+internal class PrefDatabaseImpl(private val context: Context) : PrefDatabase {
 
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
@@ -40,9 +40,6 @@ class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Cont
         }
 
 
-
-
-
     private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
         val edit = this.edit()
         operation(edit)
@@ -60,7 +57,10 @@ class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Cont
         }
     }
 
-    private inline fun <reified T : Any> SharedPreferences.getValue(key: String, defaultValue: T? = null): T {
+    private inline fun <reified T : Any> SharedPreferences.getValue(
+        key: String,
+        defaultValue: T? = null
+    ): T {
         return when (T::class) {
             String::class -> getString(key, defaultValue as? String ?: "") as T
             Int::class -> getInt(key, defaultValue as? Int ?: -1) as T
@@ -76,7 +76,8 @@ class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Cont
         private const val PREF_NAME = "play_your_color_shared_pref"
         private const val CURRENT_PLAYLIST_INFO_ID = "current_playlist_info_id"
         private const val CURRENT_PLAYING_ITEM_ID = "current_playing_item_id"
-        private const val CURRENT_PLAYING_ITEM_AUDIO_PLAYBACK_TIME = "current_playing_item_audio_playback_time"
+        private const val CURRENT_PLAYING_ITEM_AUDIO_PLAYBACK_TIME =
+            "current_playing_item_audio_playback_time"
         private const val IS_SHUFFLE_ON = "is_shuffle_on"
         private const val IS_REPEAT_ON = "is_repeat_on"
     }
