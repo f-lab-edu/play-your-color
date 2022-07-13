@@ -2,10 +2,10 @@ package com.pyc.local.sharedpref
 
 import android.content.SharedPreferences
 
-internal interface PrefDatabase {
+interface PrefDatabase {
 
-    var currentPlayingListInfoId: Int?
-    var currentPlayingItemId: Int?
+    var currentPlayingListInfoId: Int
+    var currentPlayingItemId: Int
     var currentPlayingItemAudioPlaybackTime: Long
     var isShuffleOn: Boolean
     var isRepeatOn: Boolean

@@ -5,18 +5,18 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-internal class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Context) : PrefDatabase {
+class PrefDatabaseImpl @Inject constructor(@ApplicationContext val context: Context) : PrefDatabase {
 
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    override var currentPlayingListInfoId: Int?
-        get() = sharedPreferences.getValue(CURRENT_PLAYLIST_INFO_ID, null)
+    override var currentPlayingListInfoId: Int
+        get() = sharedPreferences.getValue(CURRENT_PLAYLIST_INFO_ID, -1)
         set(value) {
             sharedPreferences.setValue(CURRENT_PLAYLIST_INFO_ID, value)
         }
 
-    override var currentPlayingItemId: Int?
-        get() = sharedPreferences.getValue(CURRENT_PLAYING_ITEM_ID, null)
+    override var currentPlayingItemId: Int
+        get() = sharedPreferences.getValue(CURRENT_PLAYING_ITEM_ID, -1)
         set(value) {
             sharedPreferences.setValue(CURRENT_PLAYING_ITEM_ID, value)
         }
