@@ -31,8 +31,6 @@ class SearchAudioByTitleOrArtistUseCaseTest() {
             ),
             resultList
         )
-
-
     }
 
 
@@ -52,7 +50,5 @@ class SearchAudioByTitleOrArtistUseCaseTest() {
             ),
             resultList
         )
-
-
     }
 }
