@@ -1,5 +1,9 @@
 package pyc.domain.usecase
 
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.CoreMatchers.*
+
+
 import org.junit.Assert.*
 import org.junit.Test
 import pyc.domain.model.Audio
@@ -24,15 +28,15 @@ class SearchAudioByTitleOrArtistUseCaseTest() {
         val resultList = SearchAudioByTitleOrArtistUseCase().invoke(word, list)
 
         //Then
-        assertEquals(
-            listOf<PlaylistItem>(
-                PlaylistItem(id = 1, Audio(uri = "sdfdf", title = "abcsss", "dkdk")),
-                PlaylistItem(id = 2, Audio(uri = "ssss", title = "ddd", "ABCaaaa"))
-            ),
-            resultList
+        assertThat(
+            resultList, equalTo(
+                listOf<PlaylistItem>(
+                    PlaylistItem(id = 1, Audio(uri = "sdfdf", title = "abcsss", "dkdk")),
+                    PlaylistItem(id = 2, Audio(uri = "ssss", title = "ddd", "ABCaaaa"))
+                )
+            )
         )
     }
-
 
 
     @Test
@@ -44,11 +48,12 @@ class SearchAudioByTitleOrArtistUseCaseTest() {
         val resultList = SearchAudioByTitleOrArtistUseCase().invoke(word, list)
 
         //Then
-        assertEquals(
-            listOf<PlaylistItem>(
-                PlaylistItem(id = 3, Audio(uri = "sdfdf", title = "하하", "aaaa"))
-            ),
-            resultList
+        assertThat(
+            resultList, equalTo(
+                listOf<PlaylistItem>(
+                    PlaylistItem(id = 3, Audio(uri = "sdfdf", title = "하하", "aaaa"))
+                )
+            )
         )
     }
 }
