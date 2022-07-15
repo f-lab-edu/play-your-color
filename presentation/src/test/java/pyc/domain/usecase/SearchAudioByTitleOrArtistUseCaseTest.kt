@@ -5,7 +5,7 @@ import org.junit.Test
 import pyc.domain.model.Audio
 import pyc.domain.model.PlaylistItem
 
-class GetSearchTitleOrArtistResultPlaylistUseCaseTest() {
+class SearchAudioByTitleOrArtistUseCaseTest() {
 
     private val list = listOf<PlaylistItem>(
         PlaylistItem(id = 1, Audio(uri = "sdfdf", title = "abcsss", "dkdk")),
@@ -16,12 +16,12 @@ class GetSearchTitleOrArtistResultPlaylistUseCaseTest() {
     )
 
     @Test
-    fun getSearchTitleOrArtistResultPlaylist_alphabet_ignoreCase_containWordList() {
+    fun searchAudioByTitleOrArtistUseCase_alphabet_ignoreCase_containWordList() {
         //Given
         val word = "abc"
 
         //When
-        val resultList = GetSearchTitleOrArtistResultPlaylistUseCase().invoke(word, list)
+        val resultList = SearchAudioByTitleOrArtistUseCase().invoke(word, list)
 
         //Then
         assertEquals(
@@ -38,12 +38,12 @@ class GetSearchTitleOrArtistResultPlaylistUseCaseTest() {
 
 
     @Test
-    fun getSearchTitleOrArtistResultPlaylist_hangeul_containWordList() {
+    fun searchAudioByTitleOrArtistUseCase_hangeul_containWordList() {
         //Given
         val word = "하하"
 
         //When
-        val resultList = GetSearchTitleOrArtistResultPlaylistUseCase().invoke(word, list)
+        val resultList = SearchAudioByTitleOrArtistUseCase().invoke(word, list)
 
         //Then
         assertEquals(

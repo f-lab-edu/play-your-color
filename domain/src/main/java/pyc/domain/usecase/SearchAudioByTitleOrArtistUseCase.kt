@@ -5,7 +5,7 @@ import io.reactivex.Flowable
 import pyc.domain.common.containsIgnoreCase
 import pyc.domain.model.PlaylistItem
 
-class GetSearchTitleOrArtistResultPlaylistUseCase {
+class SearchAudioByTitleOrArtistUseCase {
 
     operator fun invoke(word: String, list: List<PlaylistItem>): List<PlaylistItem> {
 
