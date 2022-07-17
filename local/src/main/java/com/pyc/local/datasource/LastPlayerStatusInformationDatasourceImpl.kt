@@ -8,53 +8,53 @@ import javax.inject.Inject
 
 class LastPlayerStatusInformationDatasourceImpl @Inject constructor
     (private val prefDatabase: PrefDatabase) : LastPlayerStatusInformationDatasource {
-    override suspend fun getCurrentPlayingListInfoId(): Single<Int> {
+    override fun getCurrentPlayingListInfoId(): Single<Int> {
         return Single.just(prefDatabase.currentPlayingListInfoId)
     }
 
-    override suspend fun saveCurrentPlayingListInfoId(id: Int): Completable {
+    override fun saveCurrentPlayingListInfoId(id: Int): Completable {
         return Completable.fromAction {
             prefDatabase.currentPlayingListInfoId = id
         }
     }
 
-    override suspend fun getCurrentPlayingItemId(): Single<Int> {
+    override fun getCurrentPlayingItemId(): Single<Int> {
         return Single.just(prefDatabase.currentPlayingItemId)
     }
 
-    override suspend fun saveCurrentPlayingItemId(id: Int): Completable {
+    override fun saveCurrentPlayingItemId(id: Int): Completable {
         return Completable.fromAction {
             prefDatabase.currentPlayingItemId = id
         }
     }
 
-    override suspend fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long> {
+    override fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long> {
         return Single.just(prefDatabase.currentPlayingItemAudioPlaybackTime)
     }
 
-    override suspend fun saveCurrentPlayingItemAudioPlaybackTime(playbackTime: Long): Completable {
+    override fun saveCurrentPlayingItemAudioPlaybackTime(playbackTime: Long): Completable {
         return Completable.fromAction {
             prefDatabase.currentPlayingItemAudioPlaybackTime = playbackTime
         }
     }
 
-    override suspend fun getIsShuffleOn(): Single<Boolean> {
+    override fun getIsShuffleOn(): Single<Boolean> {
         return Single.just(prefDatabase.isShuffleOn)
     }
 
-    override suspend fun saveIsShuffleOn(shuffleOn: Boolean): Completable {
+    override fun saveIsShuffleOn(shuffleOn: Boolean): Completable {
         return Completable.fromAction {
             prefDatabase.isShuffleOn = shuffleOn
         }
     }
 
-    override suspend fun getIsRepeatOn(): Single<Boolean> {
+    override fun getIsRepeatOn(): Single<Boolean> {
         return Single.just(
             prefDatabase.isRepeatOn
         )
     }
 
-    override suspend fun saveIsRepeatOn(repeatOn: Boolean): Completable {
+    override fun saveIsRepeatOn(repeatOn: Boolean): Completable {
         return Completable.fromAction {
             prefDatabase.isRepeatOn = repeatOn
         }

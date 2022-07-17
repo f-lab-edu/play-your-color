@@ -5,23 +5,23 @@ import io.reactivex.Single
 
 interface LastPlayerStatusInformationDatasource {
 
-    suspend fun getCurrentPlayingListInfoId(): Single<Int>
+    fun getCurrentPlayingListInfoId(): Single<Int>
 
-    suspend fun saveCurrentPlayingListInfoId(id: Int): Completable
+    fun saveCurrentPlayingListInfoId(id: Int): Completable
 
-    suspend fun getCurrentPlayingItemId(): Single<Int>
+    fun getCurrentPlayingItemId(): Single<Int>
 
-    suspend fun saveCurrentPlayingItemId(id: Int): Completable
+    fun saveCurrentPlayingItemId(id: Int): Completable
 
-    suspend fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long>
+    fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long>
 
-    suspend fun saveCurrentPlayingItemAudioPlaybackTime(playbackTime: Long): Completable
+    fun saveCurrentPlayingItemAudioPlaybackTime(playbackTime: Long): Completable
 
-    suspend fun getIsShuffleOn(): Single<Boolean>
+    fun getIsShuffleOn(): Single<Boolean>
 
-    suspend fun saveIsShuffleOn(shuffleOn: Boolean): Completable
+    fun saveIsShuffleOn(shuffleOn: Boolean): Completable
 
-    suspend fun getIsRepeatOn(): Single<Boolean>
+    fun getIsRepeatOn(): Single<Boolean>
 
-    suspend fun saveIsRepeatOn(repeatOn: Boolean): Completable
+    fun saveIsRepeatOn(repeatOn: Boolean): Completable
 }
