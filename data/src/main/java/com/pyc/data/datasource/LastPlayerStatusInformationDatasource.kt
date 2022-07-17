@@ -7,21 +7,21 @@ interface LastPlayerStatusInformationDatasource {
 
     suspend fun getCurrentPlayingListInfoId(): Single<Int>
 
-    suspend fun saveCurrentPlayingListInfoId(): Completable
+    suspend fun saveCurrentPlayingListInfoId(id: Int): Completable
 
     suspend fun getCurrentPlayingItemId(): Single<Int>
 
-    suspend fun saveCurrentPlayingItemId(): Completable
+    suspend fun saveCurrentPlayingItemId(id: Int): Completable
 
     suspend fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long>
 
-    suspend fun saveCurrentPlayingItemAudioPlaybackTime(): Completable
+    suspend fun saveCurrentPlayingItemAudioPlaybackTime(playbackTime: Long): Completable
 
     suspend fun getIsShuffleOn(): Single<Boolean>
 
-    suspend fun saveIsShuffleOn(): Completable
+    suspend fun saveIsShuffleOn(shuffleOn: Boolean): Completable
 
     suspend fun getIsRepeatOn(): Single<Boolean>
 
-    suspend fun saveIsRepeatOn(): Completable
+    suspend fun saveIsRepeatOn(repeatOn: Boolean): Completable
 }
