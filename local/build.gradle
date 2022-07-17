@@ -59,5 +59,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "org.assertj:assertj-core:$assertj_version"
 
+    testImplementation "io.github.ivanshafran:shared-preferences-mock:$shared_preferences_mock"
+
     implementation project(path: ':data')
 }
