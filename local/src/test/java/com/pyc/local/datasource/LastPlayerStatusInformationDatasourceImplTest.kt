@@ -1,17 +1,17 @@
 package com.pyc.local.datasource
 
+import org.hamcrest.CoreMatchers.*
+import org.hamcrest.MatcherAssert.assertThat
 import com.github.ivanshafran.sharedpreferencesmock.SPMockBuilder
 import com.pyc.local.sharedpref.PrefDatabaseImpl
 import org.junit.Before
 import org.junit.Test
-import java.util.concurrent.TimeUnit
 
 class LastPlayerStatusInformationDatasourceImplTest {
 
-    private lateinit var sPMockBuilder : SPMockBuilder
+    private lateinit var sPMockBuilder: SPMockBuilder
     private lateinit var prefDatabase: PrefDatabaseImpl
     private lateinit var lastPlayerStatusInformationDatasourceImpl: LastPlayerStatusInformationDatasourceImpl
-    private val waitTime = 500L
 
     @Before
     fun setup() {
@@ -22,101 +22,110 @@ class LastPlayerStatusInformationDatasourceImplTest {
     }
 
     @Test
-    fun setAndGet_currentPlayingListInfoId() {
+    fun saveAndGet_currentPlayingListInfoId() {
 
         //given
         val id = 2
 
-        //then
         lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingListInfoId(id).test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
             .assertComplete()
             .assertNoErrors()
 
-        lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingListInfoId().test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
-            .assertOf { testObserver ->
-            testObserver.assertValue { it == id }
-        }
+        //then
+        val testObserver =
+            lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingListInfoId().test()
+                .assertOf { testObserver ->
+                    testObserver.assertComplete()
+                    testObserver.assertValueCount(1)
+                    testObserver.assertValue { it == id }
+                }
+        assertThat(testObserver.values()[0], equalTo(id))
     }
 
 
     @Test
-    fun setAndGet_currentPlayingItemId() {
+    fun saveAndGet_currentPlayingItemId() {
 
         //given
         val id = 3
 
-        //then
+        //when
         lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingItemId(id).test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
             .assertComplete()
             .assertNoErrors()
 
-        lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingListInfoId().test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //then
+        val testObserver = lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingListInfoId().test()
             .assertOf { testObserver ->
+                testObserver.assertComplete()
+                testObserver.assertValueCount(1)
                 testObserver.assertValue { it == id }
             }
+        assertThat(testObserver.values()[0], equalTo(id))
     }
 
 
     @Test
-    fun setAndGet_currentPlayingItemAudioPlaybackTime() {
+    fun saveAndGet_currentPlayingItemAudioPlaybackTime() {
 
         //given
         val time = 300L
 
-        //then
-        lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingItemAudioPlaybackTime(time).test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //when
+        lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingItemAudioPlaybackTime(time)
+            .test()
             .assertComplete()
             .assertNoErrors()
 
-        lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingItemAudioPlaybackTime().test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //then
+        val testObserver = lastPlayerStatusInformationDatasourceImpl.getCurrentPlayingItemAudioPlaybackTime().test()
             .assertOf { testObserver ->
+                testObserver.assertComplete()
+                testObserver.assertValueCount(1)
                 testObserver.assertValue { it == time }
             }
+        assertThat(testObserver.values()[0], equalTo(time))
     }
 
     @Test
-    fun setAndGet_isShuffleOn() {
+    fun saveAndGetIsShuffleOn_setFalse_getFalse() {
 
         //given
-        val isTrue = true
+        val shuffleOn = true
 
-        //then
-        lastPlayerStatusInformationDatasourceImpl.saveIsShuffleOn(isTrue).test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //when
+        lastPlayerStatusInformationDatasourceImpl.saveIsShuffleOn(shuffleOn).test()
             .assertComplete()
             .assertNoErrors()
 
-        lastPlayerStatusInformationDatasourceImpl.getIsShuffleOn().test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //then
+        val testObserver = lastPlayerStatusInformationDatasourceImpl.getIsShuffleOn().test()
             .assertOf { testObserver ->
-                testObserver.assertValue { it == isTrue}
+                testObserver.assertComplete()
+                testObserver.assertValueCount(1)
+                testObserver.assertValue { it == shuffleOn }
             }
+        assertThat(testObserver.values()[0], equalTo(shuffleOn))
     }
 
     @Test
-    fun setAndGet_isRepeatOn() {
+    fun saveAndGetIsRepeatOn_setFalse_getFalse() {
 
         //given
-        val isTrue = false
+        val repeatOn = false
 
-        //then
-        lastPlayerStatusInformationDatasourceImpl.saveIsRepeatOn(isTrue).test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //when
+        lastPlayerStatusInformationDatasourceImpl.saveIsRepeatOn(repeatOn).test()
             .assertComplete()
             .assertNoErrors()
 
-        lastPlayerStatusInformationDatasourceImpl.getIsRepeatOn().test()
-            .awaitDone(waitTime, TimeUnit.MILLISECONDS)
+        //then
+        val testObserver = lastPlayerStatusInformationDatasourceImpl.getIsRepeatOn().test()
             .assertOf { testObserver ->
-                testObserver.assertValue { it == isTrue}
+                testObserver.assertComplete()
+                testObserver.assertValueCount(1)
+                testObserver.assertValue { it == repeatOn }
             }
+        assertThat(testObserver.values()[0], equalTo(repeatOn))
     }
-
-
 }
