@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-internal class PrefDatabaseImpl(private val context: Context) : PrefDatabase {
+internal class PrefDatabaseImpl(context: Context) : PrefDatabase {
 
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 

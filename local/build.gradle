@@ -48,5 +48,18 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // rxjava2
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+
+    // JUnit 4 framework
+    implementation "junit:junit:$junit_version"
+
+    // Mockito framework
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.assertj:assertj-core:$assertj_version"
+
+    testImplementation "io.github.ivanshafran:shared-preferences-mock:$shared_preferences_mock"
+
     implementation project(path: ':data')
 }

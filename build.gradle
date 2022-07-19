@@ -12,6 +12,7 @@ buildscript {
         assertj_version = "3.11.1"
         hilt_viewmodel_version = "1.0.0-alpha03"
         rxandroid_version = "2.1.0"
+        shared_preferences_mock = "1.2.4"
     }
 
     dependencies {
