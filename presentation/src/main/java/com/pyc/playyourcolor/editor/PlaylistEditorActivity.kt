@@ -3,7 +3,7 @@ package com.pyc.playyourcolor.editor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.pyc.playyourcolor.editor.view.ui.PrimaryPlaylistEditor
+import com.pyc.playyourcolor.editor.view.ui.PlaylistEditor
 import com.pyc.playyourcolor.editor.viewmodel.PlaylistEditorViewModel
 import com.pyc.playyourcolor.playlist.view.ui.theme.PlayYourColorTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,12 +20,8 @@ class PlaylistEditorActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PlayYourColorTheme {
-                val playlistId : Int = intent.extras?.get(PLAYLIST_EDITOR_ACTIVITY_KEY) as Int
-                if (playlistId == PRIMARY_PLAYLIST_ID) {
-                    PrimaryPlaylistEditor(playlistId, viewModelFactory)
-                } else {
-
-                }
+                val playlistId : Int = (intent.extras?.get(PLAYLIST_EDITOR_ACTIVITY_KEY) as? Int) ?: PRIMARY_PLAYLIST_ID
+                PlaylistEditor(playlistId, viewModelFactory)
             }
         }
     }

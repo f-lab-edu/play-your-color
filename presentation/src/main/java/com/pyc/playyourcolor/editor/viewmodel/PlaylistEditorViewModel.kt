@@ -2,7 +2,6 @@ package com.pyc.playyourcolor.editor.viewmodel
 
 import androidx.compose.material.*
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,22 +14,25 @@ import dagger.assisted.AssistedInject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import pyc.domain.usecase.DeleteAudioUseCase
-import pyc.domain.usecase.GetPlaylistUseCase
-import pyc.domain.usecase.UpdatePlaylistAudioOrderUseCase
+import io.reactivex.subjects.PublishSubject
+import pyc.domain.common.PRIMARY_PLAYLIST_ID
+import pyc.domain.model.ColorInfo
+import pyc.domain.usecase.*
 
 class PlaylistEditorViewModel @AssistedInject constructor(
     private val getPlaylistUseCase: GetPlaylistUseCase,
     private val updatePlaylistAudioOrderUseCase: UpdatePlaylistAudioOrderUseCase,
     private val deleteAudioUseCase: DeleteAudioUseCase,
+    private val updateColorInfoUseCase: UpdateColorInfoUseCase,
+    private val getColorInfoUseCase: GetColorInfoUseCase,
     @Assisted private val playlistId: Int,
 ) : ViewModel() {
 
-    private var _audioEditModelList = mutableStateListOf<AudioEditModel>()
-    val audioEditModelList : List<AudioEditModel> get() = _audioEditModelList
+    private var _audioEditModelList = mutableStateOf<List<AudioEditModel>>(emptyList())
+    val audioEditModelList: State<List<AudioEditModel>> get() = _audioEditModelList
 
     private var _selectedCountState = mutableStateOf(0)
-    val selectedCountState : State<Int> get() = _selectedCountState
+    val selectedCountState: State<Int> get() = _selectedCountState
 
     @OptIn(ExperimentalMaterialApi::class)
     val bottomSheetScaffoldState = BottomSheetScaffoldState(
@@ -39,10 +41,16 @@ class PlaylistEditorViewModel @AssistedInject constructor(
         SnackbarHostState()
     )
 
+    private var _colorInfoState = mutableStateOf<ColorInfo?>(null)
+    val colorInfoState: State<ColorInfo?> get() = _colorInfoState
+
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         getAudioEditModelList(playlistId)
+        if (playlistId != PRIMARY_PLAYLIST_ID) {
+            getColorInfo(playlistId)
+        }
     }
 
     private fun getAudioEditModelList(id: Int) {
@@ -50,34 +58,47 @@ class PlaylistEditorViewModel @AssistedInject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
-                { _audioEditModelList.addAll(it.map { item -> toAudioEditModel(item) }) },
+                { _audioEditModelList.value = it.map { item -> toAudioEditModel(item) }},
                 { throwable -> },
                 {})
         compositeDisposable.add(disposable)
     }
 
-    fun audioMove(from: Int, to: Int) {
-        updatePlaylistAudioOrderUseCase(playlistId, _audioEditModelList.map { it.id }.toMutableList(), from, to)
+    private fun getColorInfo(id: Int) {
+        val disposable = getColorInfoUseCase(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { _colorInfoState.value = it },
+                {},
+                {}
+            )
+        compositeDisposable.add(disposable)
+    }
+
+    fun audioMove(from: Int, to: Int, callback: () -> Unit) {
+        updatePlaylistAudioOrderUseCase(playlistId, _audioEditModelList.value.map { it.id }.toMutableList(), from, to)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
-                _audioEditModelList.move(from, to)
+                _audioEditModelList.value = _audioEditModelList.value.move(from, to)
+                callback()
             }
             .subscribe()
     }
 
     fun selectAudio(idx: Int) {
-        if (_audioEditModelList[idx].checked) {
-            _audioEditModelList[idx].checked = false
+        if (_audioEditModelList.value[idx].checked) {
+            _audioEditModelList.value[idx].checked = false
             _selectedCountState.value--
         } else {
-            _audioEditModelList[idx].checked = true
+            _audioEditModelList.value[idx].checked = true
             _selectedCountState.value++
         }
     }
 
     fun deselectAllAudio() {
-        _audioEditModelList.forEach {
+        _audioEditModelList.value.forEach {
             if (it.checked) {
                 it.checked = false
                 _selectedCountState.value--
@@ -88,33 +109,37 @@ class PlaylistEditorViewModel @AssistedInject constructor(
     fun deleteSelectedAudio() {
         deleteAudioUseCase(
             playlistId,
-            _audioEditModelList.map { it.id },
-            _audioEditModelList.filter { it.checked }.map { item -> item.id })
+            _audioEditModelList.value.map { it.id },
+            _audioEditModelList.value.filter { it.checked }.map { item -> item.id })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
-                _audioEditModelList.removeAll { it.checked }
+                _audioEditModelList.value = _audioEditModelList.value.filterNot{ it.checked }
                 _selectedCountState.value = 0
             }
             .subscribe()
     }
 
     fun selectAllAudio() {
-        if (_selectedCountState.value < _audioEditModelList.size) {
-            _audioEditModelList.forEach {
+        if (_selectedCountState.value < _audioEditModelList.value.size) {
+            _audioEditModelList.value.forEach {
                 if (!it.checked) {
                     it.checked = true
                     _selectedCountState.value++
                 }
             }
         } else {
-            _audioEditModelList.forEach {
+            _audioEditModelList.value.forEach {
                 it.checked = false
                 _selectedCountState.value--
             }
         }
     }
 
+    sealed class Event {
+        class UpdateOrderFail() : Event()
+        class UpdateOrderComplete(val from: Int, val to: Int) : Event()
+    }
     @AssistedFactory
     interface IdAssistedFactory {
         fun create(id: Int): PlaylistEditorViewModel
