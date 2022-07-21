@@ -11,28 +11,30 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.consumeAllChanges
 import com.pyc.playyourcolor.common.getVisibleItemInfoFor
 import com.pyc.playyourcolor.common.offsetEnd
+import kotlinx.coroutines.delay
 
 // itemContent: LazyColumn 에 그려질 Composable
 // offsetOrNull : 얼마나 y축으로 드래그 되었는 지 정도
 @Composable
 fun <T> DragDropList(
     items: List<T>,
-    onMove: (Int, Int) -> Unit,
+    dragDropListState: DragDropListState,
+    key: ((index: Int, item: T) -> Any)?,
     modifier: Modifier = Modifier,
-    itemContent: @Composable LazyItemScope.(index: Int, item: T, offsetOrNull: () -> Float?) -> Unit
+    itemContent: @Composable LazyItemScope.(index: Int, item: T, offsetOrNull: () -> Float?) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
-    val dragDropListState = rememberDragDropListState(onMove = onMove)
 
     LazyColumn(
         modifier = modifier
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
                     onDrag = { change, offset ->
-                        change.consume()
+                        change.consumeAllChanges()
                         dragDropListState.onDrag(offset = offset)
 
                         if (overScrollJob?.isActive == true)
@@ -43,6 +45,7 @@ fun <T> DragDropList(
                             .takeIf { it != 0f }
                             ?.let {
                                 overScrollJob = scope.launch {
+                                    delay(10L)
                                     dragDropListState.lazyListState.scrollBy(it)
                                 }
                             } ?: kotlin.run { overScrollJob?.cancel() }
@@ -54,9 +57,9 @@ fun <T> DragDropList(
             }
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-        state = dragDropListState.lazyListState
+        state = dragDropListState.lazyListState,
     ) {
-        itemsIndexed(items) { index, item ->
+        itemsIndexed(items, key = key) { index, item ->
             itemContent(index, item) {
                 dragDropListState.elementDisplacement.takeIf {
                     index == dragDropListState.currentIndexOfDraggedItem
@@ -69,14 +72,14 @@ fun <T> DragDropList(
 @Composable
 fun rememberDragDropListState(
     lazyListState: LazyListState = rememberLazyListState(),
-    onMove: (Int, Int) -> Unit
+    onMove: (Int, Int, () -> Unit) -> Unit
 ): DragDropListState {
     return remember { DragDropListState(lazyListState = lazyListState, onMove = onMove) }
 }
 
 class DragDropListState(
     val lazyListState: LazyListState,
-    private val onMove: (Int, Int) -> Unit
+    private val onMove: (Int, Int, () -> Unit) -> Unit
 ) {
     var draggedDistance by mutableStateOf(0f)
     var initiallyDraggedElement by mutableStateOf<LazyListItemInfo?>(null)
@@ -90,8 +93,8 @@ class DragDropListState(
             ?.let {
                 lazyListState.getVisibleItemInfoFor(absolute = it)
             }
-            ?.let {
-                    item -> (initiallyDraggedElement?.offset ?: 0f).toFloat() + draggedDistance - item.offset
+            ?.let { item ->
+                (initiallyDraggedElement?.offset ?: 0f).toFloat() + draggedDistance - item.offset
             }
 
     private val currentElement: LazyListItemInfo?
@@ -126,6 +129,7 @@ class DragDropListState(
             val endOffset = bottomOffset + draggedDistance
 
             currentElement?.let { hovered ->
+                println("hovered ${hovered.key} : offset : ${hovered.offset}")
                 lazyListState.layoutInfo.visibleItemsInfo
                     .filterNot { item ->
                         item.offsetEnd < startOffset || item.offset > endOffset || hovered.index == item.index
@@ -138,9 +142,10 @@ class DragDropListState(
                         }
                     }?.also { item ->
                         currentIndexOfDraggedItem?.let { current ->
-                            onMove.invoke(current, item.index)
+                            onMove.invoke(current, item.index) {
+                                currentIndexOfDraggedItem = item.index
+                            }
                         }
-                        currentIndexOfDraggedItem = item.index
                     }
             }
         }

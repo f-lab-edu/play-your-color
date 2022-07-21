@@ -2,6 +2,7 @@ package pyc.domain.repository
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import pyc.domain.model.ColorInfo
 import pyc.domain.model.PlaylistItem
 
 interface PlaylistRepository {
@@ -28,4 +29,13 @@ interface PlaylistRepository {
         playlistId: Int,
         changedOrderList: List<Pair<Int, Int>>
     ): Completable
+
+    fun updateColorInfo(
+        id: Int,
+        colorInfo: ColorInfo
+    ): Completable
+
+    fun getColorInfo(
+        id: Int,
+    ): Flowable<ColorInfo>
 }

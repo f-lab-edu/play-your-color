@@ -15,14 +15,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pyc.playyourcolor.R
-import com.pyc.playyourcolor.common.collapse
-import com.pyc.playyourcolor.common.expand
 import com.pyc.playyourcolor.editor.view.ui.components.*
 import com.pyc.playyourcolor.editor.viewmodel.PlaylistEditorViewModel
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PrimaryPlaylistEditor(
+fun PlaylistEditor(
     playlistId: Int,
     factory: PlaylistEditorViewModel.IdAssistedFactory,
     viewModel: PlaylistEditorViewModel = viewModel(factory = PlaylistEditorViewModel.provideFactory(factory, playlistId))
@@ -34,21 +33,14 @@ fun PrimaryPlaylistEditor(
 
     val selectedCountState = viewModel.selectedCountState
 
+    val colorInfoState = viewModel.colorInfoState
+
     var deleteDialogState by rememberSaveable { mutableStateOf(false) }
 
-    if (selectedCountState.value > 0) {
-        LaunchedEffect(key1 = bottomSheetScaffoldState) {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.expand(this)
-            }
-        }
-    } else {
-        LaunchedEffect(key1 = bottomSheetScaffoldState) {
-            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                bottomSheetScaffoldState.collapse(this)
-            }
-        }
-    }
+    val dragDropListState = rememberDragDropListState(onMove = { from, to, callback ->
+        // onMove 말고 drag end 일떄 업데이트?
+        viewModel.audioMove(from, to, callback)
+    })
 
     if (deleteDialogState) {
         EditorDeleteDialog(
@@ -61,8 +53,10 @@ fun PrimaryPlaylistEditor(
 
     PlaylistEditorScreen(
         bottomSheetScaffoldState = bottomSheetScaffoldState,
-        items = audioEditModelList,
-        title = stringResource(id = R.string.primary_playlist_editor),
+        selectedCountState = selectedCountState,
+        dragDropListState = dragDropListState,
+        items = audioEditModelList.value,
+        title = colorInfoState.value?.name ?: stringResource(id = R.string.primary_playlist_editor),
         topMenu = {
             Box(
                 Modifier
@@ -77,7 +71,7 @@ fun PrimaryPlaylistEditor(
                 }
                 EditorAllChoiceButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
-                    maxSelectedCount = audioEditModelList.size,
+                    maxSelectedCount = audioEditModelList.value.size,
                     selectedCount = selectedCountState.value
                 ) {
                     viewModel.selectAllAudio()
@@ -120,9 +114,5 @@ fun PrimaryPlaylistEditor(
         onItemClicked = { idx ->
             viewModel.selectAudio(idx)
         },
-        onMove = { from, to ->
-            // onMove 말고 drag end 일떄 업데이트?
-            viewModel.audioMove(from, to)
-        }
     )
 }
