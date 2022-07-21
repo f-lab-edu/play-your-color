@@ -17,6 +17,12 @@
         android:theme="@style/Theme.PlayYourColor"
         tools:targetApi="31">
         <activity
+            android:name=".audiofilepicker.view.AudioFilePickerActivity"
+            android:exported="true"
+            android:label="@string/title_activity_audio_file_picker"
+            android:theme="@style/Theme.PlayYourColor">
+        </activity>
+        <activity
             android:name=".editor.PlaylistEditorActivity"
             android:exported="false"
             android:label="@string/title_activity_playlist_editor"
