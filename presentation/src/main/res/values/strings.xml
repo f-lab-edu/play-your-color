@@ -27,4 +27,7 @@
     <string name="yes">네</string>
     <string name="cancel">취소</string>
     <string name="editor_delete_dialog_empty_message">곡을 선택해주세요.</string>
+    <string name="title_activity_audio_file_picker">AudioFilePickerActivity</string>
+    <string name="search">검색</string>
+    <string name="back">뒤로가기</string>
 </resources>
