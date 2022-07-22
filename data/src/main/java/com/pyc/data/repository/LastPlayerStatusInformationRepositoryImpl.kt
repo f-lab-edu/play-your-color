@@ -16,12 +16,12 @@ class LastPlayerStatusInformationRepositoryImpl @Inject constructor(
     override fun saveCurrentPlayingListInfoId(id: Int): Completable =
         lastPlayerStatusInformationDatasource.saveCurrentPlayingListInfoId(id)
 
-    override fun getCurrentPlayingItemId(): Single<Int> =
-        lastPlayerStatusInformationDatasource.getCurrentPlayingItemId()
+    override fun getCurrentPlayingItemPosition(): Single<Int> =
+        lastPlayerStatusInformationDatasource.getCurrentPlayingItemPosition()
 
 
-    override fun saveCurrentPlayingItemId(id: Int): Completable =
-        lastPlayerStatusInformationDatasource.saveCurrentPlayingItemId(id)
+    override fun saveCurrentPlayingItemPosition(position: Int): Completable =
+        lastPlayerStatusInformationDatasource.saveCurrentPlayingItemPosition(position)
 
 
     override fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long> =

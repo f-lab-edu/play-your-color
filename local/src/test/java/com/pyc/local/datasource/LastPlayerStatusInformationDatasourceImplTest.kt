@@ -50,7 +50,7 @@ class LastPlayerStatusInformationDatasourceImplTest {
         val id = 3
 
         //when
-        lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingItemId(id).test()
+        lastPlayerStatusInformationDatasourceImpl.saveCurrentPlayingItemPosition(id).test()
             .assertComplete()
             .assertNoErrors()
 

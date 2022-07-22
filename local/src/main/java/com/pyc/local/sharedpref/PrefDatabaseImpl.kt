@@ -2,8 +2,6 @@ package com.pyc.local.sharedpref
 
 import android.content.Context
 import android.content.SharedPreferences
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
 internal class PrefDatabaseImpl(context: Context) : PrefDatabase {
 
@@ -15,10 +13,10 @@ internal class PrefDatabaseImpl(context: Context) : PrefDatabase {
             sharedPreferences.setValue(CURRENT_PLAYLIST_INFO_ID, value)
         }
 
-    override var currentPlayingItemId: Int
-        get() = sharedPreferences.getValue(CURRENT_PLAYING_ITEM_ID, -1)
+    override var currentPlayingItemPosition: Int
+        get() = sharedPreferences.getValue(CURRENT_PLAYING_ITEM_POSITION, -1)
         set(value) {
-            sharedPreferences.setValue(CURRENT_PLAYING_ITEM_ID, value)
+            sharedPreferences.setValue(CURRENT_PLAYING_ITEM_POSITION, value)
         }
 
     override var currentPlayingItemAudioPlaybackTime: Long
@@ -75,7 +73,7 @@ internal class PrefDatabaseImpl(context: Context) : PrefDatabase {
     companion object {
         private const val PREF_NAME = "play_your_color_shared_pref"
         private const val CURRENT_PLAYLIST_INFO_ID = "current_playlist_info_id"
-        private const val CURRENT_PLAYING_ITEM_ID = "current_playing_item_id"
+        private const val CURRENT_PLAYING_ITEM_POSITION = "current_playing_item_id"
         private const val CURRENT_PLAYING_ITEM_AUDIO_PLAYBACK_TIME =
             "current_playing_item_audio_playback_time"
         private const val IS_SHUFFLE_ON = "is_shuffle_on"
