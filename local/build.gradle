@@ -62,4 +62,5 @@ dependencies {
     testImplementation "io.github.ivanshafran:shared-preferences-mock:$shared_preferences_mock"
 
     implementation project(path: ':data')
+    implementation project(path: ':domain')
 }

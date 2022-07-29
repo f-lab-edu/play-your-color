@@ -2,6 +2,7 @@ package com.pyc.data.datasource
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import pyc.domain.model.LastPlayerStatusInformation
 
 interface LastPlayerStatusInformationDatasource {
 
@@ -24,4 +25,8 @@ interface LastPlayerStatusInformationDatasource {
     fun getIsRepeatOn(): Single<Boolean>
 
     fun saveIsRepeatOn(repeatOn: Boolean): Completable
+
+    fun getLastPlayerStatusInformation() : Single<LastPlayerStatusInformation>
+
+    fun saveLastPlayerStatusInformation(lastPlayerStatusInformation: LastPlayerStatusInformation) : Completable
 }
