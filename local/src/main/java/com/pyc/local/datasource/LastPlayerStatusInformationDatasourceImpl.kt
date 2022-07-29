@@ -19,13 +19,13 @@ class LastPlayerStatusInformationDatasourceImpl @Inject constructor
         }
     }
 
-    override fun getCurrentPlayingItemId(): Single<Int> {
-        return Single.just(prefDatabase.currentPlayingItemId)
+    override fun getCurrentPlayingItemPosition(): Single<Int> {
+        return Single.just(prefDatabase.currentPlayingItemPosition)
     }
 
-    override fun saveCurrentPlayingItemId(id: Int): Completable {
+    override fun saveCurrentPlayingItemPosition(position: Int): Completable {
         return Completable.fromAction {
-            prefDatabase.currentPlayingItemId = id
+            prefDatabase.currentPlayingItemPosition = position
         }
     }
 

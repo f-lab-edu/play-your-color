@@ -10,9 +10,9 @@ interface LastPlayerStatusInformationDatasource {
 
     fun saveCurrentPlayingListInfoId(id: Int): Completable
 
-    fun getCurrentPlayingItemId(): Single<Int>
+    fun getCurrentPlayingItemPosition(): Single<Int>
 
-    fun saveCurrentPlayingItemId(id: Int): Completable
+    fun saveCurrentPlayingItemPosition(position: Int): Completable
 
     fun getCurrentPlayingItemAudioPlaybackTime(): Single<Long>
 
