@@ -4,6 +4,7 @@ import com.pyc.data.datasource.LastPlayerStatusInformationDatasource
 import com.pyc.local.sharedpref.PrefDatabase
 import io.reactivex.Completable
 import io.reactivex.Single
+import pyc.domain.model.LastPlayerStatusInformation
 import javax.inject.Inject
 
 class LastPlayerStatusInformationDatasourceImpl @Inject constructor
@@ -18,13 +19,13 @@ class LastPlayerStatusInformationDatasourceImpl @Inject constructor
         }
     }
 
-    override fun getCurrentPlayingItemId(): Single<Int> {
-        return Single.just(prefDatabase.currentPlayingItemId)
+    override fun getCurrentPlayingItemPosition(): Single<Int> {
+        return Single.just(prefDatabase.currentPlayingItemPosition)
     }
 
-    override fun saveCurrentPlayingItemId(id: Int): Completable {
+    override fun saveCurrentPlayingItemPosition(position: Int): Completable {
         return Completable.fromAction {
-            prefDatabase.currentPlayingItemId = id
+            prefDatabase.currentPlayingItemPosition = position
         }
     }
 
@@ -60,5 +61,26 @@ class LastPlayerStatusInformationDatasourceImpl @Inject constructor
         }
     }
 
+    override fun getLastPlayerStatusInformation(): Single<LastPlayerStatusInformation> {
+        return Single.just(
+            LastPlayerStatusInformation(
+                prefDatabase.currentPlayingListInfoId,
+                prefDatabase.currentPlayingItemPosition,
+                prefDatabase.currentPlayingItemAudioPlaybackTime,
+                prefDatabase.isShuffleOn,
+                prefDatabase.isRepeatOn
+            )
+        )
+    }
+
+    override fun saveLastPlayerStatusInformation(lastPlayerStatusInformation: LastPlayerStatusInformation): Completable {
+        return Completable.fromAction {
+            prefDatabase.currentPlayingListInfoId = lastPlayerStatusInformation.currentPlayingListInfoId
+            prefDatabase.currentPlayingItemPosition = lastPlayerStatusInformation.currentPlayingItemId
+            prefDatabase.currentPlayingItemAudioPlaybackTime = lastPlayerStatusInformation.currentPlayingItemAudioPlaybackTime
+            prefDatabase.isShuffleOn = lastPlayerStatusInformation.isShuffleOn
+            prefDatabase.isRepeatOn = lastPlayerStatusInformation.isRepeatOn
+        }
+    }
 
 }

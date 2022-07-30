@@ -1,6 +1,5 @@
 package com.pyc.playyourcolor.editor.view.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.pyc.playyourcolor.R
+import com.pyc.playyourcolor.common.collapse
+import com.pyc.playyourcolor.common.expand
 import com.pyc.playyourcolor.common.noRippleClickable
 import com.pyc.playyourcolor.editor.model.AudioEditModel
 import com.skydoves.landscapist.glide.GlideImage
@@ -37,16 +38,31 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun PlaylistEditorScreen(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
+    selectedCountState: State<Int>,
+    dragDropListState: DragDropListState,
     items: List<AudioEditModel>,
     title: String,
     topMenu: @Composable () -> Unit,
     bottomMenu: @Composable () -> Unit,
     onCompleted: (Int) -> Unit,
     onItemClicked: (Int) -> Unit,
-    onMove: (Int, Int) -> Unit,
 ) {
 
     var size by remember { mutableStateOf(IntSize.Zero) }
+
+    if (selectedCountState.value > 0) {
+        LaunchedEffect(key1 = bottomSheetScaffoldState) {
+            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                bottomSheetScaffoldState.expand(this)
+            }
+        }
+    } else {
+        LaunchedEffect(key1 = bottomSheetScaffoldState) {
+            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                bottomSheetScaffoldState.collapse(this)
+            }
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
@@ -89,7 +105,8 @@ fun PlaylistEditorScreen(
             topMenu()
             DragDropList(
                 items = items,
-                onMove = onMove,
+                key = { _, item -> item.id },
+                dragDropListState = dragDropListState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
@@ -102,7 +119,6 @@ fun PlaylistEditorScreen(
                         else 0.dp)
                     .weight(1f),
             ) { index, item, offsetOrNull ->
-                Log.d("Test", "${item.title} offsetOrNull : ${offsetOrNull()}")
                 Row(
                     modifier = Modifier
                         .graphicsLayer {

@@ -3,6 +3,7 @@ package pyc.domain.di.repository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import pyc.domain.model.Audio
+import pyc.domain.model.ColorInfo
 import pyc.domain.model.PlaylistItem
 import pyc.domain.repository.PlaylistRepository
 import javax.inject.Inject
@@ -22,6 +23,9 @@ class FakePlaylistRepository @Inject constructor() : PlaylistRepository {
         PlaylistItem(10, Audio("", "붉은노을10", "빅뱅", 140, "", "", emptyList(), true)),
         PlaylistItem(11, Audio("", "붉은노을11", "빅뱅", 140, "", "", emptyList(), true)),
     )
+
+    private val dummyData2 = ColorInfo(1, "0xFFFFFFFF", "검은")
+
     override fun getPlaylist(playlistId: Int): Flowable<List<PlaylistItem>> {
         return Flowable.just(dummyData)
     }
@@ -49,7 +53,14 @@ class FakePlaylistRepository @Inject constructor() : PlaylistRepository {
         playlistId: Int,
         changedOrderList: List<Pair<Int, Int>>
     ): Completable {
-        println("updateAudioOrder")
         return Completable.complete()
+    }
+
+    override fun updateColorInfo(id: Int, colorInfo: ColorInfo): Completable {
+        return Completable.complete()
+    }
+
+    override fun getColorInfo(id: Int): Flowable<ColorInfo> {
+        return Flowable.just(dummyData2)
     }
 }
