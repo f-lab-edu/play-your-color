@@ -65,7 +65,7 @@ class LastPlayerStatusInformationDatasourceImpl @Inject constructor
         return Single.just(
             LastPlayerStatusInformation(
                 prefDatabase.currentPlayingListInfoId,
-                prefDatabase.currentPlayingItemId,
+                prefDatabase.currentPlayingItemPosition,
                 prefDatabase.currentPlayingItemAudioPlaybackTime,
                 prefDatabase.isShuffleOn,
                 prefDatabase.isRepeatOn
@@ -76,7 +76,7 @@ class LastPlayerStatusInformationDatasourceImpl @Inject constructor
     override fun saveLastPlayerStatusInformation(lastPlayerStatusInformation: LastPlayerStatusInformation): Completable {
         return Completable.fromAction {
             prefDatabase.currentPlayingListInfoId = lastPlayerStatusInformation.currentPlayingListInfoId
-            prefDatabase.currentPlayingItemId = lastPlayerStatusInformation.currentPlayingItemId
+            prefDatabase.currentPlayingItemPosition = lastPlayerStatusInformation.currentPlayingItemId
             prefDatabase.currentPlayingItemAudioPlaybackTime = lastPlayerStatusInformation.currentPlayingItemAudioPlaybackTime
             prefDatabase.isShuffleOn = lastPlayerStatusInformation.isShuffleOn
             prefDatabase.isRepeatOn = lastPlayerStatusInformation.isRepeatOn
