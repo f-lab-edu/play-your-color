@@ -1,15 +1,12 @@
 package com.pyc.playyourcolor.playlist.view.ui.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.pyc.playyourcolor.R
+import com.pyc.playyourcolor.model.*
+import com.pyc.playyourcolor.model.AudioModel
 import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 
 /**
@@ -20,8 +17,7 @@ import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 internal fun PlaylistScreenComponent(
     playlist: List<AudioPlaylistItemModel>,
     playlistId: Int,
-    nowPlayingAudioId: Int?,
-    itemClick: (Int, Boolean) -> Unit,
+    itemClick: (Int, AudioPlaylistItemModel) -> Unit,
     itemLongClick: (Int) -> Unit,
     moreIconClick: (AudioPlaylistItemModel) -> Unit,
     topBarSlot: @Composable() () -> Unit,
@@ -34,37 +30,95 @@ internal fun PlaylistScreenComponent(
             .fillMaxSize()
     ) {
         topBarSlot()
-        val (searchMode, setSearchMode) = remember {
-            mutableStateOf(false)
+        val (screenMode, setScreenMode) = remember {
+            mutableStateOf<PlaylistScreen>(Playlist)
         }
-        if (!searchMode) {
-            PlaylistFunctionBarRow(
-                Modifier.padding(horizontal = dimensionResource(id = R.dimen.item_padding_horizontal), vertical = dimensionResource(
-                    id = R.dimen.item_padding_vertical
-                )).fillMaxWidth(),
-                listCount = playlist.size,
-                playlistId = playlistId,
-                onSearchMode = { setSearchMode(true) },
-                onAddAudio = onAddAudio,
-                onEditPlaylist = onEditPlaylist
-            )
-        } else {
-            //TODO 수정예정
-            val searchWord = ""
-            SearchBarRow(
-                Modifier.padding(horizontal = dimensionResource(id = R.dimen.item_padding_horizontal), vertical = dimensionResource(
-                    id = R.dimen.item_padding_vertical
-                )),
-                searchWord,
-                onSearchCanceled = { setSearchMode(false) }, onSearchAudioInList
-            )
+        //TODO 수정예정
+        var searchWord by remember { mutableStateOf("") }
+        var searchList by remember {
+            mutableStateOf<List<AudioPlaylistItemModel>>(listOf())
         }
+        when (screenMode) {
+            is Playlist -> {
+                PlaylistFunctionBarRow(
+                    Modifier
+                        .padding(
+                            horizontal = dimensionResource(id = R.dimen.item_padding_horizontal),
+                            vertical = dimensionResource(
+                                id = R.dimen.item_padding_vertical
+                            )
+                        )
+                        .fillMaxWidth(),
+                    listCount = playlist.size,
+                    playlistId = playlistId,
+                    onSearchModeOn = { setScreenMode(Search()) },
+                    onAddAudio = onAddAudio,
+                    onEditPlaylist = onEditPlaylist
+                )
+                if (playlist.isNotEmpty()) {
+                    PlaylistRow(playlist, itemClick, itemLongClick, moreIconClick)
+                } else {
+                    EmptyPlaylistViewRow { onAddAudio(playlistId) }
+                }
+            }
+            is Search -> {
+                SearchBarRow(
+                    Modifier.padding(
+                        horizontal = dimensionResource(id = R.dimen.item_padding_horizontal),
+                        vertical = dimensionResource(
+                            id = R.dimen.item_padding_vertical
+                        )
+                    ),
+                    searchWord,
+                    onSearchCanceled = { setScreenMode(Playlist) }, onSearchAudioInList = {
+                        searchList = listOf(
+                            AudioPlaylistItemModel(
+                                id = 1,
+                                audio = AudioModel(
+                                    "test",
+                                    "TT",
+                                    "트와이스",
+                                    300000,
+                                    "https://i.imgur.com/93QXZlj.png",
+                                    "mp3"
+                                ),
+                                PlayListItemAudioState.CanNotPlayAudio
+                            )
+                        )
+                        searchWord = it
+                        screenMode.status = if (searchWord.isEmpty()) {
+                            EmptyWord
+                        } else if (searchList.isNotEmpty()) {
+                            ExistResultList
+                        } else {
+                            NoResultList
+                        }
+                    }
+                )
 
-        //playlist영역
-        if (playlist.isNotEmpty()) {
-            PlaylistRow(playlist, nowPlayingAudioId, itemClick, itemLongClick, moreIconClick)
-        } else {
-            EmptyPlaylistViewRow { onAddAudio(playlistId) }
+                when (screenMode.status) {
+                    is EmptyWord -> {
+                        PlaylistRow(playlist, itemClick, itemLongClick, moreIconClick)
+                    }
+                    is ExistResultList -> {
+                        SearchResultPlaylistRow(
+                            searchWord,
+                            searchList,
+                            itemClick,
+                            itemLongClick,
+                            moreIconClick
+                        )
+                    }
+                    is NoResultList -> {
+                        NoSearchResultViewRow()
+                    }
+                }
+
+            }
         }
     }
+
+
 }
+
+

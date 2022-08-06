@@ -28,7 +28,7 @@ internal fun PlaylistFunctionBarRow(
     modifier: Modifier,
     listCount: Int,
     playlistId: Int,
-    onSearchMode: () -> Unit,
+    onSearchModeOn: () -> Unit,
     onAddAudio: (Int) -> Unit,
     onEditPlaylist: (Int) -> Unit
 
@@ -44,18 +44,20 @@ internal fun PlaylistFunctionBarRow(
             style = MaterialTheme.typography.caption.copy(color = Purple200)
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(
-                onClick = onSearchMode,
-                modifier = Modifier
-                    .wrapContentSize(align = Alignment.Center)
-                    .padding(10.dp)
-            ) {
-                Icon(
-                    modifier = Modifier.padding(10.dp),
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null,
-                    tint = Color.White
-                )
+            if(listCount > 0) {
+                IconButton(
+                    onClick = onSearchModeOn,
+                    modifier = Modifier
+                        .wrapContentSize(align = Alignment.Center)
+                        .padding(10.dp)
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(10.dp),
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
             }
             RoundedCornerShapeOutlinedButton(
                 stringResource(id = R.string.add_audio),

@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pyc.playyourcolor.model.AudioModel
 import com.pyc.playyourcolor.model.AudioPlaylistItemModel
 import com.pyc.playyourcolor.model.ColorModel
+import com.pyc.playyourcolor.model.PlayListItemAudioState
 import com.pyc.playyourcolor.playlist.view.ui.colorplaylist.ColorPlayListScreen
 import com.pyc.playyourcolor.playlist.view.ui.components.PlayListTabRow
 import com.pyc.playyourcolor.playlist.view.ui.primaryplaylist.PrimaryPlayListScreen
@@ -85,7 +86,8 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
                             300000,
                             "https://i.imgur.com/93QXZlj.png",
                             "mp3"
-                        )
+                        ),
+                        PlayListItemAudioState.CanNotPlayAudio
                     ),
 
                     AudioPlaylistItemModel(
@@ -96,8 +98,8 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
                             200000,
                             "https://i.imgur.com/93QXZlj.png",
                             "mp3",
-                            playPossible = false
-                        )
+                        ),
+                        PlayListItemAudioState.NowPlaying
                     ),
                     AudioPlaylistItemModel(
                         id = 1, audio = AudioModel(

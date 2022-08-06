@@ -15,6 +15,7 @@
     <string name="change_playlist">플레이리스트 변경</string>
     <string name="play_impossible_audio_toast">재생 </string>
     <string name="empty_playlist_message">플레이리스트가 비어 있습니다</string>
+    <string name="no_search_result_message">검색 결과가 존재하지 않습니다</string>
     <string name="complete">완료</string>
     <string name="all_choice">전체선택</string>
     <string name="primary_playlist_editor">기본 플레이리스트 편집</string>
