@@ -9,7 +9,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 //변경 필요
-val PrimaryColor = Purple200
+val PrimaryColor = Color.Green
 val GreyColor = Color.LightGray
 
 val PlayImpossibleBackgroundColor = Color.Black.copy(alpha = 0.3f)
