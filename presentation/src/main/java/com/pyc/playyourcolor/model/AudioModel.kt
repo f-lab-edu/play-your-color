@@ -9,7 +9,5 @@ internal data class AudioModel(
         val duration: Long = 0,
         var imgUri: String = "",
         val mimeType: String = "",
-        val colorInfoList: List<ColorInfo> = listOf(),
-        var playPossible: Boolean = true,
-        var nowPlaying: Boolean = false
+        val colorInfoList: List<ColorInfo> = listOf()
 )
