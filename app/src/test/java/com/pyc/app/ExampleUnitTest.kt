@@ -1,4 +1,4 @@
-package com.enrise.app
+package com.pyc.app
 
 import org.junit.Test
 

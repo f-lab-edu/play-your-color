@@ -1,4 +1,4 @@
-package com.pyc.presentation.di.common
+package com.pyc.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
