@@ -90,67 +90,9 @@ internal fun PlaylistItemRow(
             itemClick = itemClick,
             itemLongClick = itemLongClick,
             moreIconClick = moreIconClick
-
         )
-
-    }
-
-}
-
-
-@Composable
-internal fun SearchResultPlaylistRow(
-    word: String,
-    searchResultPlaylist: List<AudioPlaylistItemModel>,
-    itemClick: (Int, AudioPlaylistItemModel) -> Unit,
-    itemLongClick: (Int) -> Unit,
-    moreIconClick: (AudioPlaylistItemModel) -> Unit,
-) {
-
-    LazyColumn(Modifier.fillMaxWidth()) {
-        itemsIndexed(searchResultPlaylist) { position, item ->
-            SearchResultPlaylistItemRow(
-                position, word, item, itemClick, itemLongClick, moreIconClick
-            )
-        }
     }
 }
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-internal fun SearchResultPlaylistItemRow(
-    position: Int,
-    searchWord: String,
-    item: AudioPlaylistItemModel,
-    itemClick: (Int, AudioPlaylistItemModel) -> Unit,
-    itemLongClick: (Int) -> Unit,
-    moreIconClick: (AudioPlaylistItemModel) -> Unit
-) {
-    val audio = item.audio
-    val itemColor = when (item.itemState) {
-        PlayListItemAudioState.CanNotPlayAudio -> Color.Gray
-        else -> Color.White
-    }
-
-    DefaultPlaylistItemRow(
-        position = position,
-        titleAndArtistSlot = {
-            AudioTitleAndArtist(
-                title = audio.title,
-                artist = audio.artist,
-                defaultColor = itemColor,
-                searchWord = searchWord
-            )
-        },
-        item = item,
-        itemColor = itemColor,
-        itemClick = itemClick,
-        itemLongClick = itemLongClick,
-        moreIconClick = moreIconClick
-
-    )
-}
-
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -221,7 +163,6 @@ internal fun DefaultPlaylistItemRow(
             )
         }
     }
-
 }
 
 
@@ -262,22 +203,6 @@ internal fun AudioTitleAndArtist(
             modifier = Modifier.wrapContentSize(),
             text = annotatedString(artist),
             style = MaterialTheme.typography.caption.copy(defaultColor)
-        )
-    }
-
-
-}
-
-
-
-
-
-@Composable
-internal fun NoSearchResultViewRow() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = stringResource(id = R.string.no_search_result_message),
-            color = Color.White
         )
     }
 }

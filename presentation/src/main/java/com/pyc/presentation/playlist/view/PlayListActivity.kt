@@ -112,7 +112,6 @@ fun NaveHost(navController: NavHostController, modifier: Modifier) {
                         )
                     )
                 ),
-                nowPlayingAudioId = 0,
                 playlistId = 1,
                 itemClick = { id, playPossible -> },
                 itemLongClick = { id -> },
