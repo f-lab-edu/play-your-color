@@ -1,4 +1,6 @@
 package com.pyc.presentation.model
 
-class ColorListItemModel {
-}
+internal data class ColorListItemModel(
+    val colorInfo: ColorModel,
+    val audioCount: Int
+)

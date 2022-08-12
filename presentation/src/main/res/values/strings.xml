@@ -31,4 +31,6 @@
     <string name="title_activity_audio_file_picker">AudioFilePickerActivity</string>
     <string name="search">검색</string>
     <string name="back">뒤로가기</string>
+    <string name="color_list_select">컬러리스트 선택</string>
+    <string name="color_list_count">전체 %d</string>
 </resources>
