@@ -1,5 +1,7 @@
 package com.pyc.presentation.playlist.view.ui.components
 
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -93,3 +95,16 @@ internal fun ColorPlayListTabColorList(
 
 }
 
+@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = false)
+@Composable
+internal fun PreviewColorPlayListTabColorList() {
+    val colorList = listOf<ColorListItemModel>(
+        ColorListItemModel(ColorModel(1, "#ffee11", "오렌지"), 10),
+        ColorListItemModel(ColorModel(2, "#faaa1d", "레드"), 1),
+        ColorListItemModel(ColorModel(3, "#ddffaa", "블랙"), 20),
+        ColorListItemModel(ColorModel(4, "#ccdd56", "갈색"), 51),
+        ColorListItemModel(ColorModel(5, "#7a7aff", "화이트"), 18),
+        ColorListItemModel(ColorModel(6, "#9d9d33", "노란색"), 33),
+    )
+    ColorPlayListTabColorList(colorList, {})
+}
