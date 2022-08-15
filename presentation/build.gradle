@@ -78,5 +78,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
+    //customview(compose preview)
+    debugImplementation "androidx.customview:customview:$customview"
+    debugImplementation "androidx.customview:customview-poolingcontainer:$poolingcontainer"
+
     implementation project(path: ':domain')
 }
