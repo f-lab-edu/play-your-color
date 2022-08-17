@@ -15,4 +15,13 @@ interface ColorInfoRepository {
     fun insertColorInfo(
         colorInfo: ColorInfo
     ) : Completable
+    
+    fun updateColorInfo(
+        id: Int,
+        colorInfo: ColorInfo
+    ): Completable
+
+    fun getColorInfo(
+        id: Int,
+    ): Flowable<ColorInfo>
 }

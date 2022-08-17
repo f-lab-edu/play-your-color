@@ -55,12 +55,4 @@ class FakePlaylistRepository @Inject constructor() : PlaylistRepository {
     ): Completable {
         return Completable.complete()
     }
-
-    override fun updateColorInfo(id: Int, colorInfo: ColorInfo): Completable {
-        return Completable.complete()
-    }
-
-    override fun getColorInfo(id: Int): Flowable<ColorInfo> {
-        return Flowable.just(dummyData2)
-    }
 }
