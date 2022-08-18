@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import pyc.domain.repository.ColorInfoRepository
 import pyc.domain.repository.LastPlayerStatusInformationRepository
 import javax.inject.Singleton
 
@@ -18,7 +17,4 @@ abstract class RepositoryModule {
     internal abstract fun bindLastPlayerStatusInformationRepository(
         lastPlayerStatusInformationRepositoryImpl: LastPlayerStatusInformationRepositoryImpl
     ): LastPlayerStatusInformationRepository
-
-    @Binds
-    abstract fun bindColorInfoRepository(ColorInfoRepositoryImpl: ColorInfoRepository): ColorInfoRepository
 }
