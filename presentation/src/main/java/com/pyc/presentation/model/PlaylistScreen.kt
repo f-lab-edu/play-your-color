@@ -7,6 +7,8 @@ import androidx.compose.runtime.setValue
 sealed interface PlaylistScreen
 sealed interface ColorPlaylistScreen
 
-class Search(val searchState: SearchState = EmptyWord) : PlaylistScreen
+class Search(initStatus: SearchState = EmptyWord) : PlaylistScreen {
+    var status: SearchState by mutableStateOf(initStatus)
+}
 object Playlist : PlaylistScreen, ColorPlaylistScreen
 object ColorList : ColorPlaylistScreen
