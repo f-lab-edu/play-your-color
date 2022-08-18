@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.pyc.presentation.editor.viewmodel.PlaylistEditorViewModel
 import com.pyc.presentation.model.AudioModel
 import com.pyc.presentation.model.AudioPlaylistItemModel
 import com.pyc.presentation.model.ColorModel
@@ -21,7 +23,12 @@ import com.pyc.presentation.playlist.view.ui.components.PlayListTabRow
 import com.pyc.presentation.playlist.view.ui.primaryplaylist.PrimaryPlayListScreen
 import com.pyc.presentation.playlist.view.ui.settings.SettingsScreen
 import com.pyc.presentation.playlist.view.ui.theme.PlayYourColorTheme
+import com.pyc.presentation.playlist.viewmodel.PlaylistViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+
+
 
 @AndroidEntryPoint
 class PlayListActivity : ComponentActivity() {
@@ -34,7 +41,7 @@ class PlayListActivity : ComponentActivity() {
 }
 
 @Composable
-fun PlayYourColorApp() {
+fun PlayYourColorApp(viewModel: PlaylistViewModel = viewModel()) {
     PlayYourColorTheme(darkTheme = true) {
         val allScreens = PlayListScreen.values().toList()
         val navController = rememberNavController()
