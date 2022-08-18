@@ -15,6 +15,7 @@ buildscript {
         shared_preferences_mock = "1.2.4"
         customview = "1.1.0"
         poolingcontainer = "1.0.0"
+        viewmodel_compose = "2.4.1"
     }
 
     dependencies {
