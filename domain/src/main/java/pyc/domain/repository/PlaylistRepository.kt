@@ -29,4 +29,13 @@ interface PlaylistRepository {
         playlistId: Int,
         changedOrderList: List<Pair<Int, Int>>
     ): Completable
+
+    fun updateColorInfo(
+        id: Int,
+        colorInfo: ColorInfo
+    ): Completable
+
+    fun getColorInfo(
+        id: Int,
+    ): Flowable<ColorInfo>
 }
