@@ -1,7 +1,13 @@
 package com.pyc.presentation.model
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
 internal class AudioPlaylistItemModel(
     val id: Int,
     val audio: AudioModel,
-    val initItemState: PlayListItemAudioState = PlayListItemAudioState.Default
-)
+    initItemState: PlayListItemAudioState = PlayListItemAudioState.Default
+) {
+    var itemState: PlayListItemAudioState by mutableStateOf(initItemState)
+}
